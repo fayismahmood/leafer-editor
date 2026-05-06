@@ -18,7 +18,9 @@ import type { ToolCreateOptions } from "./types";
  * ```
  */
 export class RectTool extends Tool {
-  readonly type = "rect" as const;
+  constructor() {
+    super("rect");
+  }
 
   /**
    * Creates a new Rect element at the specified position.
@@ -29,7 +31,6 @@ export class RectTool extends Tool {
   create(options: ToolCreateOptions): IUI {
     const { x, y, width = 0, height = 0 } = options;
     const defaults = this.defaults;
-    console.log(defaults,"WWWWWWWWWWWWWWWWWWWWWWW");
 
     return new Rect({
       x,

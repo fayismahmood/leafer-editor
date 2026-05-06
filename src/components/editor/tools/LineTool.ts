@@ -18,7 +18,9 @@ import type { ToolCreateOptions } from "./types";
  * ```
  */
 export class LineTool extends Tool {
-  readonly type = "line" as const;
+  constructor() {
+    super("line");
+  }
 
   /**
    * Creates a new Line element at the specified position.

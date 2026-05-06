@@ -1,5 +1,6 @@
 import { Store } from '@tanstack/react-store'
 import type { IUI, ILeafer } from 'leafer-ui'
+import "@leafer-in/editor";
 
 export type ToolType =
   | 'select'

@@ -18,7 +18,9 @@ import type { ToolCreateOptions } from "./types";
  * ```
  */
 export class TextTool extends Tool {
-  readonly type = "text" as const;
+  constructor() {
+    super("text");
+  }
 
   /**
    * Creates a new Text element at the specified position.

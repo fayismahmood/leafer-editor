@@ -46,7 +46,7 @@ export function createFrame({
     height,
   );
 
-  let actElement: IUI | null = null;
+  let actElement: IUI | undefined = undefined;
   let startX = 0;
   let startY = 0;
 
@@ -55,12 +55,22 @@ export function createFrame({
     startX = e.x - (frameInstance.x ?? 0);
     startY = e.y - (frameInstance.y ?? 0);
 
-    const actElement = createActiveElement({
+      actElement = createActiveElement({
       x: startX,
       y: startY,
-      width: 0,
-      height: 0,
+      width: 60,
+      height: 60,
     });
+
+//  actElement = new Rect({
+//       x: startX,
+//       y: startY,
+//       width: 60,
+//       height: 60,
+//       fill: "rgba(0, 0, 255, 0.3)",
+//       stroke: "blue",
+//       strokeWidth: 1,
+//     });
 
     console.log(actElement, "WWWWWWWWWW");
 
@@ -81,7 +91,7 @@ export function createFrame({
   });
 
   frameInstance.on(DragEvent.END, () => {
-    actElement = null;
+    actElement = undefined;
   });
 
   return frameInstance;

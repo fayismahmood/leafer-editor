@@ -18,7 +18,9 @@ import type { ToolCreateOptions } from "./types";
  * ```
  */
 export class EllipseTool extends Tool {
-  readonly type = "ellipse" as const;
+  constructor() {
+    super("ellipse");
+  }
 
   /**
    * Creates a new Ellipse element at the specified position.

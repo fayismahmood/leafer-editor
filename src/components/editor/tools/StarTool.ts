@@ -18,7 +18,9 @@ import type { ToolCreateOptions } from "./types";
  * ```
  */
 export class StarTool extends Tool {
-  readonly type = "star" as const;
+  constructor() {
+    super("star");
+  }
 
   /**
    * Creates a new Star element at the specified position.
