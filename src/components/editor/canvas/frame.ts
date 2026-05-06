@@ -55,24 +55,12 @@ export function createFrame({
     startX = e.x - (frameInstance.x ?? 0);
     startY = e.y - (frameInstance.y ?? 0);
 
-      actElement = createActiveElement({
+    actElement = createActiveElement({
       x: startX,
       y: startY,
       width: 60,
       height: 60,
     });
-
-//  actElement = new Rect({
-//       x: startX,
-//       y: startY,
-//       width: 60,
-//       height: 60,
-//       fill: "rgba(0, 0, 255, 0.3)",
-//       stroke: "blue",
-//       strokeWidth: 1,
-//     });
-
-    console.log(actElement, "WWWWWWWWWW");
 
     if (!actElement) return;
     frameInstance.add(actElement);

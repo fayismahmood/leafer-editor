@@ -21,7 +21,7 @@ export function initCanvasApp(elm: HTMLDivElement): void {
   const app = new App({
     view: canvasWrapper,
     height: window.innerHeight,
-    fill: "#ea0c0c",
+    fill: "#dddddd17",
     editor: {},
   });
 
