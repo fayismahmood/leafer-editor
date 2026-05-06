@@ -1,15 +1,28 @@
-import { App, DragEvent, Frame, Leafer, Rect } from "leafer-ui";
+/**
+ * @module canvasApp
+ * @description Initializes the Leafer-UI canvas and handles drag-to-create-frame interactions.
+ */
+
+import { App, DragEvent, Rect } from "leafer-ui";
 import "@leafer-in/state";
 import "@leafer-in/animate";
-import { Editor } from "@leafer-in/editor";
 import { editorStore } from "#/store/editor";
-export function applyCanvas(elm: HTMLDivElement) {
+import { createFrame } from "./frame";
+
+/**
+ * Initializes the canvas within the provided container element.
+ * Sets up the Leafer-UI app, handles frame creation via drag events,
+ * and manages the preview rectangle during drag operations.
+ *
+ * @param elm - The container HTMLDivElement to mount the canvas into
+ */
+export function initCanvasApp(elm: HTMLDivElement): void {
   const canvasWrapper = document.createElement("div");
   const app = new App({
     view: canvasWrapper,
     height: window.innerHeight,
     fill: "#ea0c0c",
-    editor: {},  
+    editor: {},
   });
 
   let previewRect: InstanceType<typeof Rect> | null = null;
@@ -60,71 +73,4 @@ export function applyCanvas(elm: HTMLDivElement) {
   });
 
   elm.appendChild(canvasWrapper);
-}
-
-function createFrame({
-  x,
-  y,
-  width,
-  height,
-  name,
-  app,
-}: {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  name: string;
-  app: InstanceType<typeof App>;
-}) {
-  const Frame1 = Frame.one(
-    {
-      name,
-      fill: "white",
-    },
-    x,
-    y,
-    width,
-    height,
-  );
-
-  let drawingRect: InstanceType<typeof Rect> | null = null;
-  let startX = 0;
-  let startY = 0;
-
-  Frame1.on(DragEvent.START, (e: any) => {
-    if ((app as any).editor?.leafList?.length > 0) return;
-    startX = e.x - (Frame1.x ?? 0);
-    startY = e.y - (Frame1.y ?? 0);
-
-    drawingRect = new Rect({
-     editable: true,
-      x: startX,
-      y: startY,
-      width: 0,
-      height: 0,
-      fill: "rgba(0, 120, 255, 0.2)",
-      stroke: "#0078ff",
-      strokeWidth: 1,
-    });
-    Frame1.add(drawingRect);
-  });
-
-  Frame1.on(DragEvent.DRAG, (e: any) => {
-    if (!drawingRect) return;
-    const curX = e.x - (Frame1.x ?? 0);
-    const curY = e.y - (Frame1.y ?? 0);
-    drawingRect.set({
-      x: Math.min(startX, curX),
-      y: Math.min(startY, curY),
-      width: Math.abs(curX - startX),
-      height: Math.abs(curY - startY),
-    });
-  });
-
-  Frame1.on(DragEvent.END, () => {
-    drawingRect = null;
-  });
-
-  return Frame1;
 }

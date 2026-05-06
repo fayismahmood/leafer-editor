@@ -13,7 +13,7 @@ import {
 } from 'leafer-ui'
 import { useStore } from '@tanstack/react-store'
 import { editorStore, setLeafer, setSelectedElements } from '#/store/editor'
-import { applyCanvas } from './editorCanvas'
+import { applyCanvas } from './editor/editorCanvas'
 
 function createSelectionBox() {
   return new Box({

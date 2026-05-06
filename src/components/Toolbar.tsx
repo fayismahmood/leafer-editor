@@ -1,33 +1,7 @@
+import { editorStore, setActiveTool } from '#/store/editor'
 import { useStore } from '@tanstack/react-store'
-import {
-  MousePointer2,
-  Square,
-  Circle,
-  Minus,
-  Star,
-  Type,
-  ImageIcon,
-  Frame,
-} from 'lucide-react'
-import { editorStore, setActiveTool, type ToolType } from '#/store/editor'
+import { tools } from './editor/tools'
 
-interface ToolButton {
-  tool: ToolType
-  label: string
-  icon: React.ReactNode
-  shortcut?: string
-}
-
-const tools: ToolButton[] = [
-  { tool: 'select', label: 'Select', icon: <MousePointer2 size={20} />, shortcut: 'V' },
-  { tool: 'rect', label: 'Rectangle', icon: <Square size={20} />, shortcut: 'R' },
-  { tool: 'ellipse', label: 'Ellipse', icon: <Circle size={20} />, shortcut: 'O' },
-  { tool: 'line', label: 'Line', icon: <Minus size={20} />, shortcut: 'L' },
-  { tool: 'star', label: 'Star', icon: <Star size={20} />, shortcut: 'S' },
-  { tool: 'text', label: 'Text', icon: <Type size={20} />, shortcut: 'T' },
-  { tool: 'image', label: 'Image', icon: <ImageIcon size={20} />, shortcut: 'I' },
-  { tool: 'frame', label: 'Frame', icon: <Frame size={20} />, shortcut: 'F' },
-]
 
 export function Toolbar() {
   const activeTool = useStore(editorStore, (s) => s.activeTool)
