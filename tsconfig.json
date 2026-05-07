@@ -1,6 +1,8 @@
 {
   "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
+        "experimentalDecorators": true // enable decorator support
+,
     "target": "ES2022",
     "jsx": "react-jsx",
     "module": "ESNext",

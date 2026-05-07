@@ -8,6 +8,7 @@ import "@leafer-in/state";
 import "@leafer-in/animate";
 import { editorStore } from "#/store/editor";
 import { createFrame } from "./frame";
+import { forceSelectModeInSelectTool } from "#/components/editor/canvas/listeners";
 
 /**
  * Initializes the canvas within the provided container element.
@@ -23,6 +24,7 @@ export function initCanvasApp(elm: HTMLDivElement): void {
     height: window.innerHeight,
     fill: "#dddddd17",
     editor: {},
+
   });
 
   let previewRect: InstanceType<typeof Rect> | null = null;
@@ -30,6 +32,10 @@ export function initCanvasApp(elm: HTMLDivElement): void {
   let dragStartY = 0;
   let frameCount = 0;
 
+
+
+  forceSelectModeInSelectTool(app);
+   
   app.on(DragEvent.START, (e: any) => {
     if (editorStore.state.activeTool !== 'frame') return;
     dragStartX = e.x;
@@ -74,3 +80,10 @@ export function initCanvasApp(elm: HTMLDivElement): void {
 
   elm.appendChild(canvasWrapper);
 }
+
+
+
+
+
+
+

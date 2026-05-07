@@ -3,10 +3,8 @@
  * @description Handles frame creation with internal drawing capabilities.
  */
 
-import { editorStore } from "#/store/editor";
-import { App, DragEvent, Frame, Rect } from "leafer-ui";
-import { createActiveElement } from "../tools";
-import type { IUI } from "leafer-ui";
+import { App, Frame } from "leafer-ui";
+import { getShapeTools } from "../tools";
 
 /**
  * Creates and configures a new Frame with internal drawing capabilities.
@@ -46,41 +44,9 @@ export function createFrame({
     height,
   );
 
-  let actElement: IUI | undefined = undefined;
-  let startX = 0;
-  let startY = 0;
-
-  frameInstance.on(DragEvent.START, (e: any) => {
-    if ((app as any).editor?.leafList?.length > 0) return;
-    startX = e.x - (frameInstance.x ?? 0);
-    startY = e.y - (frameInstance.y ?? 0);
-
-    actElement = createActiveElement({
-      x: startX,
-      y: startY,
-      width: 60,
-      height: 60,
-    });
-
-    if (!actElement) return;
-    frameInstance.add(actElement);
-  });
-
-  frameInstance.on(DragEvent.DRAG, (e: any) => {
-    if (!actElement) return;
-    const curX = e.x - (frameInstance.x ?? 0);
-    const curY = e.y - (frameInstance.y ?? 0);
-    actElement.set({
-      x: Math.min(startX, curX),
-      y: Math.min(startY, curY),
-      width: Math.abs(curX - startX),
-      height: Math.abs(curY - startY),
-    });
-  });
-
-  frameInstance.on(DragEvent.END, () => {
-    actElement = undefined;
-  });
+  for (const tool of getShapeTools()) {
+    tool.attachToFrame(frameInstance, app);
+  }
 
   return frameInstance;
 }

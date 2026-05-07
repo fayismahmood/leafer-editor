@@ -5,29 +5,14 @@
 
 import { Star } from "leafer-ui";
 import type { IUI } from "leafer-ui";
-import { Tool } from "./Tool";
+import { ShapeTool } from "./ShapeTool";
 import type { ToolCreateOptions } from "./types";
 
-/**
- * Creates editable star elements on the canvas.
- *
- * @example
- * ```ts
- * const starTool = new StarTool();
- * const star = starTool.create({ x: 10, y: 10, width: 100, height: 100 });
- * ```
- */
-export class StarTool extends Tool {
+export class StarTool extends ShapeTool {
   constructor() {
     super("star");
   }
 
-  /**
-   * Creates a new Star element at the specified position.
-   *
-   * @param options - Position and size options
-   * @returns Configured Star instance
-   */
   create(options: ToolCreateOptions): IUI {
     const { x, y, width = 100, height = 100 } = options;
     const defaults = this.defaults;

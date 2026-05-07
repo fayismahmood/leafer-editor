@@ -6,6 +6,7 @@
 import { editorStore, type ToolType } from "#/store/editor";
 import type { ITool, ToolCreateOptions, ToolDefaultValues } from "./types";
 import { defaultToolValues } from "./defaults";
+import { ShapeTool } from "./ShapeTool";
 import { RectTool } from "./RectTool";
 import { EllipseTool } from "./EllipseTool";
 import { LineTool } from "./LineTool";
@@ -17,6 +18,7 @@ import { Circle, Frame, ImageIcon, Minus, MousePointer2, Square, Star, Type } fr
 export type { ITool, ToolCreateOptions, ToolDefaultValues };
 export { defaultToolValues };
 export { Tool } from "./Tool";
+export { ShapeTool } from "./ShapeTool";
 export { RectTool } from "./RectTool";
 export { EllipseTool } from "./EllipseTool";
 export { LineTool } from "./LineTool";
@@ -69,6 +71,12 @@ export function createActiveElement(options: ToolCreateOptions) {
   }
 }
 
+export function getShapeTools(): ShapeTool[] {
+  return Object.values(toolRegistry).filter(
+    (tool): tool is ShapeTool => tool instanceof ShapeTool
+  );
+}
+
 
 
 interface ToolButton {
@@ -78,13 +86,38 @@ interface ToolButton {
   shortcut?: string
 }
 
-export const tools: ToolButton[] = [
-  { tool: 'select', label: 'Select', icon: <MousePointer2 size={20} />, shortcut: 'V' },
-  { tool: 'rect', label: 'Rectangle', icon: <Square size={20} />, shortcut: 'R' },
-  { tool: 'ellipse', label: 'Ellipse', icon: <Circle size={20} />, shortcut: 'O' },
-  { tool: 'line', label: 'Line', icon: <Minus size={20} />, shortcut: 'L' },
-  { tool: 'star', label: 'Star', icon: <Star size={20} />, shortcut: 'S' },
-  { tool: 'text', label: 'Text', icon: <Type size={20} />, shortcut: 'T' },
-  { tool: 'image', label: 'Image', icon: <ImageIcon size={20} />, shortcut: 'I' },
-  { tool: 'frame', label: 'Frame', icon: <Frame size={20} />, shortcut: 'F' },
+interface ToolGroup {
+  label: string
+  tools: ToolButton[]
+}
+
+export const toolGroups: ToolGroup[] = [
+  {
+    label: 'Selection',
+    tools: [
+      { tool: 'select', label: 'Select', icon: <MousePointer2 size={20} />, shortcut: 'V' },
+    ],
+  },
+  {
+    label: 'Shapes',
+    tools: [
+      { tool: 'rect', label: 'Rectangle', icon: <Square size={20} />, shortcut: 'R' },
+      { tool: 'ellipse', label: 'Ellipse', icon: <Circle size={20} />, shortcut: 'O' },
+      { tool: 'star', label: 'Star', icon: <Star size={20} />, shortcut: 'S' },
+      { tool: 'line', label: 'Line', icon: <Minus size={20} />, shortcut: 'L' },
+    ],
+  },
+  {
+    label: 'Content',
+    tools: [
+      { tool: 'text', label: 'Text', icon: <Type size={20} />, shortcut: 'T' },
+      { tool: 'image', label: 'Image', icon: <ImageIcon size={20} />, shortcut: 'I' },
+    ],
+  },
+  {
+    label: 'Layout',
+    tools: [
+      { tool: 'frame', label: 'Frame', icon: <Frame size={20} />, shortcut: 'F' },
+    ],
+  },
 ]
