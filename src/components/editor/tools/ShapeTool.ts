@@ -28,9 +28,13 @@ export abstract class ShapeTool extends Tool {
     });
 
     frame.on(DragEvent.END, () => {
+      if (actElement) this.onCreated(actElement, app);
       actElement = undefined;
     });
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected onCreated(_element: IUI, _app: InstanceType<typeof App>): void {}
 
   protected updateDrag(
     element: IUI,

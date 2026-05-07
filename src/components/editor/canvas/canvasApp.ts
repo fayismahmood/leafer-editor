@@ -6,6 +6,7 @@
 import { App, DragEvent, Rect } from "leafer-ui";
 import "@leafer-in/state";
 import "@leafer-in/animate";
+import "@leafer-in/text-editor";
 import { editorStore } from "#/store/editor";
 import { createFrame } from "./frame";
 import { forceSelectModeInSelectTool } from "#/components/editor/canvas/listeners";

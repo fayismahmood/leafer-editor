@@ -3,7 +3,7 @@
  * @description Tool for creating text elements.
  */
 
-import { Text } from "leafer-ui";
+import { App, Text } from "leafer-ui";
 import type { IUI } from "leafer-ui";
 import { ShapeTool } from "./ShapeTool";
 import type { ToolCreateOptions } from "./types";
@@ -27,5 +27,9 @@ export class TextTool extends ShapeTool {
       fontSize: 24,
       editable: defaults.editable,
     });
+  }
+
+  protected override onCreated(element: IUI, app: InstanceType<typeof App>): void {
+    (app as any).editor?.openInnerEditor(element);
   }
 }
