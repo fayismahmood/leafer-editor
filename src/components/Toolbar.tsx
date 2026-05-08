@@ -1,10 +1,10 @@
 import { editorStore, setActiveTool } from '#/store/editor'
-import { useStore } from '@tanstack/react-store'
+import { useSelector } from '@tanstack/react-store'
 import { toolGroups } from './editor/tools'
 import { ToolbarGroup } from './ToolbarGroup'
 
 export function Toolbar() {
-  const activeTool = useStore(editorStore, (s) => s.activeTool)
+  const activeTool = useSelector(editorStore, (s) => s.activeTool)
 
   return (
     <div className="flex items-center gap-1 p-2 bg-white border border-gray-200 shadow-lg rounded-xl fixed left-1/2 -translate-x-1/2 bottom-4 z-10">

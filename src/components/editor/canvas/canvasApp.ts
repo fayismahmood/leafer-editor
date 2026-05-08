@@ -9,7 +9,7 @@ import "@leafer-in/animate";
 import "@leafer-in/text-editor";
 import { editorStore } from "#/store/editor";
 import { createFrame } from "./frame";
-import { forceSelectModeInSelectTool } from "#/components/editor/canvas/listeners";
+import { forceSelectModeInSelectTool, trackEditorSelection } from "#/components/editor/canvas/listeners";
 
 /**
  * Initializes the canvas within the provided container element.
@@ -36,6 +36,7 @@ export function initCanvasApp(elm: HTMLDivElement): void {
 
 
   forceSelectModeInSelectTool(app);
+  trackEditorSelection(app);
    
   app.on(DragEvent.START, (e: any) => {
     if (editorStore.state.activeTool !== 'frame') return;

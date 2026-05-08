@@ -1,10 +1,11 @@
-import { useStore } from '@tanstack/react-store'
-import { editorStore, setCornerRadius } from '#/store/editor'
+import { useSelector } from '@tanstack/react-store'
+import { editorStore } from '#/store/editor'
+import { applyCornerRadius } from './selectionActions'
 import { BaseShapeProperties } from './BaseShapeProperties'
 import { Section, NumberField } from './fields'
 
 export function RectProperties() {
-  const cornerRadius = useStore(editorStore, (s) => s.cornerRadius)
+  const cornerRadius = useSelector(editorStore, (s) => s.cornerRadius)
 
   return (
     <BaseShapeProperties>
@@ -12,7 +13,7 @@ export function RectProperties() {
         <NumberField
           label="Radius"
           value={cornerRadius}
-          onChange={setCornerRadius}
+          onChange={applyCornerRadius}
           min={0}
           max={500}
           unit="px"

@@ -18,9 +18,11 @@ export function NumberField({
   unit,
 }: NumberFieldProps) {
   return (
-    <div className="flex items-center gap-2">
-      <label className="text-xs text-gray-500 w-12 shrink-0">{label}</label>
-      <div className="flex items-center gap-1">
+    <div className="flex items-center gap-3">
+      <label className="text-xs text-gray-500 w-14 shrink-0 font-medium leading-none">
+        {label}
+      </label>
+      <div className="flex items-center gap-1.5 flex-1 min-w-0">
         <input
           type="number"
           value={value}
@@ -28,9 +30,12 @@ export function NumberField({
           max={max}
           step={step}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-16 h-6 text-xs border border-gray-300 rounded px-1"
+          className="flex-1 h-7 text-xs bg-gray-50 border border-gray-200 rounded-lg px-2 min-w-0
+            focus:outline-none focus:border-blue-400 focus:bg-white transition-colors"
         />
-        {unit && <span className="text-xs text-gray-400">{unit}</span>}
+        {unit && (
+          <span className="text-xs text-gray-400 shrink-0 font-medium">{unit}</span>
+        )}
       </div>
     </div>
   )
