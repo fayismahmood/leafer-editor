@@ -12,6 +12,7 @@ import { LineTool } from "./LineTool";
 import { TextTool } from "./TextTool";
 import { StarTool } from "./StarTool";
 import { PenTool } from "./PenTool";
+import { ImageTool } from "./ImageTool";
 import { Circle, Frame, ImageIcon, Minus, MousePointer2, PenLine, Square, Star, Type } from "lucide-react";
 
 // Re-export types and classes
@@ -27,12 +28,13 @@ export { StarTool } from "./StarTool";
 export { PenTool } from "./PenTool";
 
 const toolRegistry: Partial<Record<ToolType, ITool>> = {
-  rect: new RectTool(),
+  rect:    new RectTool(),
   ellipse: new EllipseTool(),
-  line: new LineTool(),
-  pen: new PenTool(),
-  text: new TextTool(),
-  star: new StarTool(),
+  line:    new LineTool(),
+  pen:     new PenTool(),
+  text:    new TextTool(),
+  star:    new StarTool(),
+  image:   new ImageTool(),
 };
 
 /**

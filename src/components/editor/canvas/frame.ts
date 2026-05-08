@@ -50,5 +50,7 @@ export function createFrame({
     tool.attachToFrame(frameInstance, app);
   }
 
+  
+
   return frameInstance;
 }
