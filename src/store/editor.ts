@@ -93,7 +93,7 @@ export function setLeafer(leafer: ILeafer | null) {
 }
 
 export function setSelectedElements(elements: IUI[]) {
-  editorStore.setState((state) => ({ ...state, selectedElements: elements }))
+  editorStore.setState((state) => ({ ...state, selectedElements: [...elements] }))
 }
 
 export function setFillColor(color: PaintValue) {

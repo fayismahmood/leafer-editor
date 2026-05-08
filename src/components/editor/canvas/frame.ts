@@ -37,11 +37,13 @@ export function createFrame({
     {
       name,
       fill: "white",
+      // editable: true,
     },
     x,
     y,
     width,
     height,
+    
   );
 
   for (const tool of getShapeTools()) {
