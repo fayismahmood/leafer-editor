@@ -23,6 +23,12 @@ const baseDefaults: ToolDefaultValues = {
  */
 export const defaultToolValues: Record<ToolType, ToolDefaultValues> = {
   select: { ...baseDefaults },
+  pen: {
+    ...baseDefaults,
+    fill: "none",
+    stroke: "#333333",
+    strokeWidth: 2,
+  },
   rect: {
     ...baseDefaults,
     fill: "#4A90D9",

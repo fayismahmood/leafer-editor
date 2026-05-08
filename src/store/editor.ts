@@ -7,6 +7,7 @@ export type ToolType =
   | 'rect'
   | 'ellipse'
   | 'line'
+  | 'pen'
   | 'text'
   | 'frame'
   | 'star'
@@ -21,6 +22,8 @@ export interface EditorState {
   strokeWidth: number
   opacity: number
   fontSize: number
+  cornerRadius: number
+  starPoints: number
 }
 
 const initialState: EditorState = {
@@ -32,6 +35,8 @@ const initialState: EditorState = {
   strokeWidth: 2,
   opacity: 1,
   fontSize: 24,
+  cornerRadius: 0,
+  starPoints: 5,
 }
 
 export const editorStore = new Store<EditorState>(initialState)
@@ -66,4 +71,12 @@ export function setOpacity(opacity: number) {
 
 export function setFontSize(size: number) {
   editorStore.setState((state) => ({ ...state, fontSize: size }))
+}
+
+export function setCornerRadius(radius: number) {
+  editorStore.setState((state) => ({ ...state, cornerRadius: radius }))
+}
+
+export function setStarPoints(points: number) {
+  editorStore.setState((state) => ({ ...state, starPoints: points }))
 }

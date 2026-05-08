@@ -6,13 +6,13 @@
 import { editorStore, type ToolType } from "#/store/editor";
 import type { ITool, ToolCreateOptions, ToolDefaultValues } from "./types";
 import { defaultToolValues } from "./defaults";
-import { ShapeTool } from "./ShapeTool";
 import { RectTool } from "./RectTool";
 import { EllipseTool } from "./EllipseTool";
 import { LineTool } from "./LineTool";
 import { TextTool } from "./TextTool";
 import { StarTool } from "./StarTool";
-import { Circle, Frame, ImageIcon, Minus, MousePointer2, Square, Star, Type } from "lucide-react";
+import { PenTool } from "./PenTool";
+import { Circle, Frame, ImageIcon, Minus, MousePointer2, PenLine, Square, Star, Type } from "lucide-react";
 
 // Re-export types and classes
 export type { ITool, ToolCreateOptions, ToolDefaultValues };
@@ -24,15 +24,13 @@ export { EllipseTool } from "./EllipseTool";
 export { LineTool } from "./LineTool";
 export { TextTool } from "./TextTool";
 export { StarTool } from "./StarTool";
+export { PenTool } from "./PenTool";
 
-/**
- * Registry mapping tool types to their instances.
- * Tools not included here (select, frame, image) don't create canvas elements.
- */
 const toolRegistry: Partial<Record<ToolType, ITool>> = {
   rect: new RectTool(),
   ellipse: new EllipseTool(),
   line: new LineTool(),
+  pen: new PenTool(),
   text: new TextTool(),
   star: new StarTool(),
 };
@@ -71,9 +69,11 @@ export function createActiveElement(options: ToolCreateOptions) {
   }
 }
 
-export function getShapeTools(): ShapeTool[] {
+type FrameTool = ITool & { attachToFrame: (frame: any, app: any) => void };
+
+export function getShapeTools(): FrameTool[] {
   return Object.values(toolRegistry).filter(
-    (tool): tool is ShapeTool => tool instanceof ShapeTool
+    (tool): tool is FrameTool => typeof (tool as any).attachToFrame === "function"
   );
 }
 
@@ -105,6 +105,7 @@ export const toolGroups: ToolGroup[] = [
       { tool: 'ellipse', label: 'Ellipse', icon: <Circle size={20} />, shortcut: 'O' },
       { tool: 'star', label: 'Star', icon: <Star size={20} />, shortcut: 'S' },
       { tool: 'line', label: 'Line', icon: <Minus size={20} />, shortcut: 'L' },
+      { tool: 'pen', label: 'Pen', icon: <PenLine size={20} />, shortcut: 'P' },
     ],
   },
   {
