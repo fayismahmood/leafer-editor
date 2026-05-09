@@ -8,13 +8,17 @@ import "@leafer-in/state";
 import "@leafer-in/animate";
 import "@leafer-in/text-editor";
 import "@leafer-in/corner";
-import 'leafer-x-path-editor';
+import "leafer-x-path-editor";
+// import "@leafer-in/viewport"
 
-import { Snap } from 'leafer-x-easy-snap'
+import { Snap } from "leafer-x-easy-snap";
 
 import { editorStore } from "#/store/editor";
 import { createFrame } from "./frame";
-import { forceSelectModeInSelectTool, trackEditorSelection } from "#/components/editor/canvas/listeners";
+import {
+  forceSelectModeInSelectTool,
+  trackEditorSelection,
+} from "#/components/editor/canvas/listeners";
 import { setCanvasApp } from "#/utils/appInstance";
 
 /**
@@ -31,7 +35,6 @@ export function initCanvasApp(elm: HTMLDivElement): void {
     height: window.innerHeight,
     fill: "#dddddd17",
     editor: {},
-
   });
 
   let previewRect: InstanceType<typeof Rect> | null = null;
@@ -39,68 +42,66 @@ export function initCanvasApp(elm: HTMLDivElement): void {
   let dragStartY = 0;
   let frameCount = 0;
 
-
-
   setCanvasApp(app);
   forceSelectModeInSelectTool(app);
   trackEditorSelection(app);
-   
 
-  const snap = new Snap(app)
+  const snap = new Snap(app);
+  snap.enable(true);
 
-// 启用
-snap.enable(true)
+  // app.on(DragEvent.START, (e: any) => {
+  //   if (editorStore.state.activeTool !== 'frame') return;
+  //   dragStartX = e.x;
+  //   dragStartY = e.y;
+  //   previewRect = new Rect({
+  //     x: dragStartX,
+  //     y: dragStartY,
+  //     width: 0,
+  //     height: 0,
+  //     fill: "rgba(0, 120, 255, 0.1)",
+  //     stroke: "#0078ff",
+  //     strokeWidth: 1,
+  //   });
+  //   app.tree.add(previewRect);
+  // });
 
+  // app.on(DragEvent.DRAG, (e: any) => {
+  //   if (!previewRect) return;
+  //   const curX = e.x;
+  //   const curY = e.y;
+  //   previewRect.set({
+  //     x: Math.min(dragStartX, curX),
+  //     y: Math.min(dragStartY, curY),
+  //     width: Math.abs(curX - dragStartX),
+  //     height: Math.abs(curY - dragStartY),
+  //   });
+  // });
 
+  // app.on(DragEvent.END, (e: any) => {
+  //   if (!previewRect) return;
+  //   const x = Math.min(dragStartX, e.x);
+  //   const y = Math.min(dragStartY, e.y);
+  //   const width = Math.abs(e.x - dragStartX);
+  //   const height = Math.abs(e.y - dragStartY);
+  //   previewRect.remove();
+  //   previewRect = null;
+  //   if (width < 4 || height < 4) return;
+  //   frameCount += 1;
+  //   const frame = createFrame({ x, y, width, height, name: `Frame ${frameCount}`, app });
+  //   app.tree.add(frame);
+  // });
 
-  app.on(DragEvent.START, (e: any) => {
-    if (editorStore.state.activeTool !== 'frame') return;
-    dragStartX = e.x;
-    dragStartY = e.y;
-    previewRect = new Rect({
-      x: dragStartX,
-      y: dragStartY,
-      width: 0,
-      height: 0,
-      fill: "rgba(0, 120, 255, 0.1)",
-      stroke: "#0078ff",
-      strokeWidth: 1,
-    });
-    app.tree.add(previewRect);
+  const frame = createFrame({
+    x: 120,
+    y: 120,
+    width: 800,
+    height: 800,
+    name: `Frame ${frameCount}`,
+    app,
+
   });
 
-  app.on(DragEvent.DRAG, (e: any) => {
-    if (!previewRect) return;
-    const curX = e.x;
-    const curY = e.y;
-    previewRect.set({
-      x: Math.min(dragStartX, curX),
-      y: Math.min(dragStartY, curY),
-      width: Math.abs(curX - dragStartX),
-      height: Math.abs(curY - dragStartY),
-    });
-  });
-
-  app.on(DragEvent.END, (e: any) => {
-    if (!previewRect) return;
-    const x = Math.min(dragStartX, e.x);
-    const y = Math.min(dragStartY, e.y);
-    const width = Math.abs(e.x - dragStartX);
-    const height = Math.abs(e.y - dragStartY);
-    previewRect.remove();
-    previewRect = null;
-    if (width < 4 || height < 4) return;
-    frameCount += 1;
-    const frame = createFrame({ x, y, width, height, name: `Frame ${frameCount}`, app });
-    app.tree.add(frame);
-  });
+   app.tree.add(frame);
 
   elm.appendChild(canvasWrapper);
 }
-
-
-
-
-
-
-

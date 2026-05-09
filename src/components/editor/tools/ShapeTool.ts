@@ -14,6 +14,8 @@ export abstract class ShapeTool extends Tool {
       if ((app as any).editor?.leafList?.length > 0) return;
       startX = e.x - (frame.x ?? 0);
       startY = e.y - (frame.y ?? 0);
+
+       
       actElement = this.create({ x: startX, y: startY, width: 0, height: 0 });
       if (!actElement) return;
       frame.add(actElement);
