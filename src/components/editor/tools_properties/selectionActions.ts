@@ -10,6 +10,7 @@ import {
   setStrokeJoin,
   setOpacity,
   setBlendMode,
+  setShadows,
   setFontSize,
   setFontFamily,
   setFontWeight,
@@ -23,6 +24,7 @@ import {
   type StrokeJoin,
   type BlendMode,
   type TextAlign,
+  type ShadowEffect,
 } from '#/store/editor'
 
 export function selected() {
@@ -74,6 +76,21 @@ export function applyOpacity(opacity: number) {
 export function applyBlendMode(mode: BlendMode) {
   setBlendMode(mode)
   applyToSelection({ blendMode: mode })
+}
+
+// Shadow
+export function applyShadows(shadows: ShadowEffect[]) {
+  setShadows(shadows)
+  const dropShadows = shadows
+    .filter((s) => s.visible && s.type === 'drop')
+    .map(({ x, y, blur, spread, color }) => ({ x, y, blur, spread, color }))
+  const innerShadows = shadows
+    .filter((s) => s.visible && s.type === 'inner')
+    .map(({ x, y, blur, spread, color }) => ({ x, y, blur, spread, color }))
+  applyToSelection({
+    shadow: dropShadows.length ? dropShadows : null,
+    innerShadow: innerShadows.length ? innerShadows : null,
+  })
 }
 
 // Shape

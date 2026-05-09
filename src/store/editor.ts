@@ -25,6 +25,16 @@ export type BlendMode =
   | 'hard-light' | 'soft-light' | 'difference' | 'exclusion'
   | 'hue' | 'saturation' | 'color' | 'luminosity'
 
+export interface ShadowEffect {
+  type: 'drop' | 'inner'
+  x: number
+  y: number
+  blur: number
+  spread: number
+  color: string
+  visible: boolean
+}
+
 export interface EditorState {
   activeTool: ToolType
   leafer: ILeafer | null
@@ -43,6 +53,9 @@ export interface EditorState {
   // Appearance
   opacity: number
   blendMode: BlendMode
+
+  // Shadow
+  shadows: ShadowEffect[]
 
   // Shape
   cornerRadius: number
@@ -71,6 +84,8 @@ const initialState: EditorState = {
 
   opacity: 1,
   blendMode: 'normal',
+
+  shadows: [],
 
   cornerRadius: 0,
   starPoints: 5,
@@ -126,6 +141,10 @@ export function setOpacity(opacity: number) {
 
 export function setBlendMode(mode: BlendMode) {
   editorStore.setState((state) => ({ ...state, blendMode: mode }))
+}
+
+export function setShadows(shadows: ShadowEffect[]) {
+  editorStore.setState((state) => ({ ...state, shadows }))
 }
 
 export function setCornerRadius(radius: number) {

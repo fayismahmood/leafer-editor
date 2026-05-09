@@ -12,6 +12,7 @@ import {
   applyBlendMode,
 } from './selectionActions'
 import { Section, ColorField, NumberField, SliderField, SelectField } from './fields'
+import { ShadowSection } from './ShadowSection'
 import type { BlendMode } from '#/store/editor'
 
 export interface BaseShapePropertiesProps {
@@ -140,6 +141,8 @@ export function BaseShapeProperties({
           />
         </Section>
       )}
+
+      <ShadowSection />
 
       {children}
     </>

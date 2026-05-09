@@ -2,7 +2,7 @@ import type { App } from 'leafer-ui'
 import { EditorEvent } from '@leafer-in/editor'
 import { parseLeaferFill } from '#/components/editor/tools_properties/fields/ColorPicker'
 import { editorStore } from '#/store/editor'
-import type { EditorState, StrokeAlign, StrokeCap, StrokeJoin, BlendMode, TextAlign } from '#/store/editor'
+import type { EditorState, StrokeAlign, StrokeCap, StrokeJoin, BlendMode, TextAlign, ShadowEffect } from '#/store/editor'
 
 export function forceSelectModeInSelectTool(app: App) {
   editorStore.subscribe((state) => {
@@ -35,6 +35,33 @@ export function trackEditorSelection(app: App) {
       if (el.strokeCap)   next.strokeCap   = el.strokeCap   as StrokeCap
       if (el.strokeJoin)  next.strokeJoin  = el.strokeJoin  as StrokeJoin
       if (el.blendMode)   next.blendMode   = el.blendMode   as BlendMode
+
+      const parsedShadows: ShadowEffect[] = []
+      if (el.shadow) {
+        const drops = Array.isArray(el.shadow) ? el.shadow : [el.shadow]
+        for (const s of drops) {
+          parsedShadows.push({
+            type: 'drop',
+            x: s.x ?? 0, y: s.y ?? 0,
+            blur: s.blur ?? 0, spread: s.spread ?? 0,
+            color: typeof s.color === 'string' ? s.color : '#000000',
+            visible: s.visible !== false,
+          })
+        }
+      }
+      if (el.innerShadow) {
+        const inners = Array.isArray(el.innerShadow) ? el.innerShadow : [el.innerShadow]
+        for (const s of inners) {
+          parsedShadows.push({
+            type: 'inner',
+            x: s.x ?? 0, y: s.y ?? 0,
+            blur: s.blur ?? 0, spread: s.spread ?? 0,
+            color: typeof s.color === 'string' ? s.color : '#000000',
+            visible: s.visible !== false,
+          })
+        }
+      }
+      next.shadows = parsedShadows
 
       if (typeof el.cornerRadius === 'number') next.cornerRadius = el.cornerRadius
       if (typeof el.corners      === 'number') next.starPoints   = el.corners

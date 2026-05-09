@@ -7,6 +7,11 @@ import { App, DragEvent, Rect } from "leafer-ui";
 import "@leafer-in/state";
 import "@leafer-in/animate";
 import "@leafer-in/text-editor";
+import "@leafer-in/corner";
+import 'leafer-x-path-editor';
+
+import { Snap } from 'leafer-x-easy-snap'
+
 import { editorStore } from "#/store/editor";
 import { createFrame } from "./frame";
 import { forceSelectModeInSelectTool, trackEditorSelection } from "#/components/editor/canvas/listeners";
@@ -40,6 +45,14 @@ export function initCanvasApp(elm: HTMLDivElement): void {
   forceSelectModeInSelectTool(app);
   trackEditorSelection(app);
    
+
+  const snap = new Snap(app)
+
+// 启用
+snap.enable(true)
+
+
+
   app.on(DragEvent.START, (e: any) => {
     if (editorStore.state.activeTool !== 'frame') return;
     dragStartX = e.x;
