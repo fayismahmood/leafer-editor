@@ -8,7 +8,7 @@ import "@leafer-in/state";
 import "@leafer-in/animate";
 import "@leafer-in/text-editor";
 import "@leafer-in/corner";
-import "leafer-x-path-editor";
+// import "leafer-x-path-editor";
 // import "@leafer-in/viewport"
 
 import { Snap } from "leafer-x-easy-snap";
