@@ -26,14 +26,14 @@ async function handleImageTool() {
 
   function onClick(e: any) {
     if (!getPendingImageUrl()) {
-      app.off(PointerEvent.CLICK, onClick)
+      app!.off(PointerEvent.CLICK, onClick)
       return
     }
 
     const target = e.target
     if (target && target !== (app as any).tree && typeof (target as any).fill !== 'undefined') {
       target.set({ fill: { type: 'image', url, mode: 'cover' as any } })
-      app.editor?.select(target)
+      app!.editor?.select(target)
     } else {
       const pagePoint = e.getPagePoint()
       const el = new Rect({
@@ -44,12 +44,12 @@ async function handleImageTool() {
         editable: true,
         fill: { type: 'image', url, mode: 'cover' as any },
       } as any)
-      app.tree.add(el)
-      app.editor?.select(el)
+      app!.tree.add(el)
+      app!.editor?.select(el)
     }
 
     clearPendingImageUrl()
-    app.off(PointerEvent.CLICK, onClick)
+    app!.off(PointerEvent.CLICK, onClick)
     setActiveTool('select')
   }
 

@@ -1,17 +1,14 @@
 import { useRef, useState } from 'react'
 import { useSelector } from '@tanstack/react-store'
-import { GripVertical } from 'lucide-react'
+import { GripVertical, Trash2, Lock, LockOpen, Square, Circle, Minus, Star, Type, PenLine, Frame, Group, Layers } from 'lucide-react'
 import { editorStore, setActiveTool } from '#/store/editor'
 import { getCanvasApp } from '#/utils/appInstance'
 import type { IUI } from 'leafer-ui'
-
-// ── types ─────────────────────────────────────────────────────────────────────
+import type { ComponentType } from 'react'
 
 interface LayerRow { el: IUI; depth: number }
 
-type DropPos = 'before' | 'after'
-
-// ── constants ─────────────────────────────────────────────────────────────────
+type DropPos = 'before' | 'after' | 'inside'
 
 const TAG_COLOR: Record<string, string> = {
   Rect:    '#4A90D9',
@@ -23,13 +20,21 @@ const TAG_COLOR: Record<string, string> = {
   Frame:   '#94a3b8',
 }
 
-// ── tree helper ───────────────────────────────────────────────────────────────
+const TAG_ICON: Record<string, ComponentType<{ size?: number; className?: string }>> = {
+  Rect:    Square,
+  Ellipse: Circle,
+  Line:    Minus,
+  Star:    Star,
+  Text:    Type,
+  Path:    PenLine,
+  Frame:   Frame,
+  Group:   Group,
+}
 
 function collectRows(node: any, depth = 0, out: LayerRow[] = []): LayerRow[] {
   const children: any[] = node?.children
   if (!Array.isArray(children)) return out
 
-  // Reverse so the topmost visual element appears first in the list
   for (const child of [...children].reverse()) {
     if (!child.__tag || child.__tag === 'Leafer' || child.__tag === 'App') continue
     out.push({ el: child as IUI, depth })
@@ -40,27 +45,24 @@ function collectRows(node: any, depth = 0, out: LayerRow[] = []): LayerRow[] {
   return out
 }
 
-// ── component ─────────────────────────────────────────────────────────────────
-
 export function LayersPanel() {
   const selectedElements = useSelector(editorStore, (s) => s.selectedElements)
   const selectedSet      = new Set<IUI>(selectedElements)
 
-  // ── rename state ──────────────────────────────────────────────────────────
+  const [tick, setTick] = useState(0)
+
   const [renamingId,  setRenamingId]  = useState<number | null>(null)
   const [renameValue, setRenameValue] = useState('')
 
-  // ── drag state ────────────────────────────────────────────────────────────
   const [draggingId,  setDraggingId]  = useState<number | null>(null)
   const [dropTarget,  setDropTarget]  = useState<{ id: number; pos: DropPos } | null>(null)
 
-  // Row DOM refs for bounding-rect calculation during DnD
   const rowRefs = useRef<Map<number, HTMLDivElement>>(new Map())
 
   const app  = getCanvasApp()
   const rows = app ? collectRows(app.tree) : []
 
-  // ── rename ────────────────────────────────────────────────────────────────
+  // ── rename ──
 
   function startRename(el: any, e: React.MouseEvent) {
     e.stopPropagation()
@@ -77,7 +79,23 @@ export function LayersPanel() {
     setRenamingId(null)
   }
 
-  // ── drag ──────────────────────────────────────────────────────────────────
+  // ── actions ──
+
+  function handleDelete(el: any, e: React.MouseEvent) {
+    e.stopPropagation()
+    el.remove()
+    app?.editor?.cancel()
+    setTick((t) => t + 1)
+  }
+
+  function handleToggleLock(el: any, e: React.MouseEvent) {
+    e.stopPropagation()
+    el.locked = !el.locked
+    app?.editor?.update()
+    setTick((t) => t + 1)
+  }
+
+  // ── drag ──
 
   function onDragStart(e: React.DragEvent, innerId: number) {
     e.dataTransfer.effectAllowed = 'move'
@@ -85,13 +103,24 @@ export function LayersPanel() {
     setDraggingId(innerId)
   }
 
-  function onDragOver(e: React.DragEvent, innerId: number) {
+  function onDragOver(e: React.DragEvent, innerId: number, isBranch: boolean) {
     e.preventDefault()
     if (innerId === draggingId) return
 
     const rowEl = rowRefs.current.get(innerId)
     const rect  = rowEl?.getBoundingClientRect()
-    const pos: DropPos = rect && e.clientY < rect.top + rect.height / 2 ? 'before' : 'after'
+    if (!rect) return
+
+    const ratio = (e.clientY - rect.top) / rect.height
+    let pos: DropPos
+
+    if (isBranch && ratio > 0.25 && ratio < 0.75) {
+      pos = 'inside'
+    } else if (ratio < 0.5) {
+      pos = 'before'
+    } else {
+      pos = 'after'
+    }
 
     setDropTarget((prev) =>
       prev?.id === innerId && prev.pos === pos ? prev : { id: innerId, pos },
@@ -110,25 +139,25 @@ export function LayersPanel() {
     const dragEl  = allRows.find((r) => (r.el as any).innerId === draggingId)?.el as any
     if (!dragEl || dragEl === targetEl) return
 
-    const dragParent   = dragEl.parent   as any
-    const targetParent = targetEl.parent as any
-
-    // Only same-parent reorder for now
-    if (dragParent !== targetParent) return
+    // Prevent dropping a parent onto its own descendant
+    if (isDescendant(dragEl, targetEl)) return
 
     dragEl.remove()
 
-    // The UI list is reversed relative to the Leafer children array:
-    //   "before in UI" = visually above target = higher array index → addAfter
-    //   "after in UI"  = visually below target = lower array index  → addBefore
-    if (dropTarget.pos === 'before') {
-      dragParent.addAfter(dragEl, targetEl)
+    if (dropTarget.pos === 'inside') {
+      targetEl.add(dragEl)
     } else {
-      dragParent.addBefore(dragEl, targetEl)
+      const targetParent = targetEl.parent
+      if (dropTarget.pos === 'before') {
+        targetParent.addAfter(dragEl, targetEl)
+      } else {
+        targetParent.addBefore(dragEl, targetEl)
+      }
     }
 
     setDraggingId(null)
     setDropTarget(null)
+    setTick((t) => t + 1)
   }
 
   function onDragEnd() {
@@ -136,7 +165,16 @@ export function LayersPanel() {
     setDropTarget(null)
   }
 
-  // ── select ────────────────────────────────────────────────────────────────
+  function isDescendant(ancestor: any, child: any): boolean {
+    let node = child
+    while (node) {
+      if (node === ancestor) return true
+      node = node.parent
+    }
+    return false
+  }
+
+  // ── select ──
 
   function handleClick(el: IUI) {
     const a = getCanvasApp()
@@ -145,7 +183,7 @@ export function LayersPanel() {
     setActiveTool('select')
   }
 
-  // ── render ────────────────────────────────────────────────────────────────
+  // ── render ──
 
   if (rows.length === 0) {
     return (
@@ -162,16 +200,19 @@ export function LayersPanel() {
         const name     = (el as any).name   || tag
         const color    = TAG_COLOR[tag]      ?? '#aaa'
         const innerId  = (el as any).innerId as number
+        const isBranch = Array.isArray((el as any).children) && (el as any).children.length > 0
 
         const isSelected   = selectedSet.has(el)
         const isDragging   = draggingId === innerId
         const isRenaming   = renamingId === innerId
         const dropBefore   = dropTarget?.id === innerId && dropTarget.pos === 'before'
         const dropAfter    = dropTarget?.id === innerId && dropTarget.pos === 'after'
+        const dropInside   = dropTarget?.id === innerId && dropTarget.pos === 'inside'
+
+        const IconComponent = TAG_ICON[tag] ?? Layers
 
         return (
           <div key={innerId}>
-            {/* ── drop-before indicator ── */}
             {dropBefore && (
               <div className="h-[2px] bg-blue-400 rounded-full mx-3 pointer-events-none" />
             )}
@@ -183,29 +224,36 @@ export function LayersPanel() {
               }}
               draggable={!isRenaming}
               onDragStart={(e) => onDragStart(e, innerId)}
-              onDragOver={(e) => onDragOver(e, innerId)}
+              onDragOver={(e) => onDragOver(e, innerId, isBranch)}
               onDragLeave={onDragLeave}
               onDrop={(e) => onDrop(e, el)}
               onClick={() => handleClick(el)}
               style={{ paddingLeft: 6 + depth * 14 }}
-              className={`group flex items-center gap-1.5 pr-3 py-1.5 cursor-pointer
+              className={`group flex items-center gap-1.5 pr-1.5 py-1.5 cursor-pointer
                 select-none text-xs transition-colors ${
                   isDragging ? 'opacity-40' : ''
                 } ${
+                  dropInside
+                    ? 'bg-blue-100 ring-1 ring-inset ring-blue-300 rounded'
+                    : ''
+                } ${
                   isSelected
-                    ? 'bg-blue-50 text-blue-700'
+                    ? dropInside ? 'bg-blue-100' : 'bg-blue-50 text-blue-700'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
             >
-              {/* Drag handle */}
               <span className="shrink-0 text-gray-300 group-hover:text-gray-400 cursor-grab">
                 <GripVertical size={12} />
               </span>
 
-              {/* Type colour dot */}
-              <span className="w-2 h-2 rounded-sm shrink-0" style={{ background: color }} />
+              {IconComponent ? (
+                <span className="shrink-0" style={{ color }}>
+                  <IconComponent size={13} />
+                </span>
+              ) : (
+                <span className="w-2 h-2 rounded-sm shrink-0" style={{ background: color }} />
+              )}
 
-              {/* Name / rename input */}
               {isRenaming ? (
                 <input
                   autoFocus
@@ -229,9 +277,27 @@ export function LayersPanel() {
                   {name}
                 </span>
               )}
+
+              <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  type="button"
+                  title={(el as any).locked ? 'Unlock' : 'Lock'}
+                  className="flex items-center justify-center w-4 h-4 rounded hover:bg-gray-200 text-gray-400 hover:text-gray-600"
+                  onClick={(e) => handleToggleLock(el, e)}
+                >
+                  {(el as any).locked ? <Lock size={10} /> : <LockOpen size={10} />}
+                </button>
+                <button
+                  type="button"
+                  title="Delete"
+                  className="flex items-center justify-center w-4 h-4 rounded hover:bg-red-100 text-gray-400 hover:text-red-500"
+                  onClick={(e) => handleDelete(el, e)}
+                >
+                  <Trash2 size={10} />
+                </button>
+              </div>
             </div>
 
-            {/* ── drop-after indicator ── */}
             {dropAfter && (
               <div className="h-[2px] bg-blue-400 rounded-full mx-3 pointer-events-none" />
             )}
