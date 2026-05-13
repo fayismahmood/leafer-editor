@@ -1,33 +1,53 @@
 # Leafer Editor
 
-A browser-based vector design editor built on [Leafer UI](https://www.leaferjs.com/), with a Figma-like feel. Draw shapes and frames on an infinite canvas, select and style them, all from a clean React interface.
+> **A free, open-source vector design editor that runs entirely in your browser.**
+> No installs. No accounts. No cost. Just open and start designing.
+
+<p align="center">
+  <img src=".github/preview.png" alt="Leafer Editor screenshot" width="800" />
+</p>
+
+> **Status:** Public Beta — actively developed. [Try it live →](https://leafer-editor.vercel.app)
+
+---
 
 ## Features
 
-- **8 drawing tools** — Select, Rectangle, Ellipse, Line, Star, Text, Image, Frame
-- **Keyboard shortcuts** — `V` select · `R` rect · `O` ellipse · `L` line · `S` star · `T` text · `I` image · `F` frame
-- **Frames** — drag to create named frames; draw child shapes inside them
-- **Properties panel** — live fill color, stroke color & width, opacity, font size
-- **Selection-aware interactions** — drawing inside a frame is blocked when an element is already selected
+### Drawing Tools
+- **Select** (`V`) — Click, drag-select, move, resize, rotate
+- **Rectangle** (`R`) — Shapes with configurable corner radius
+- **Ellipse** (`O`) — Circles, ellipses, arcs, and pie slices
+- **Line** (`L`) — Lines with stroke width, cap style, dash patterns
+- **Star** (`S`) — 3–20 point stars with adjustable inner radius
+- **Pen** (`P`) — Custom paths and bezier curves
+- **Text** (`T`) — Inline canvas text editing with rich typography
+- **Image** (`I`) — Import PNG, JPG, WebP, GIF from your machine
+- **Frame** (`F`) — Artboards with presets for paper, screens, and social media
 
-## Tech Stack
+### Styling
+- **Fill** — Solid colors or linear/radial gradients with multi-stop gradient bar
+- **Stroke** — Color, width, alignment (inside/center/outside), cap/join styles
+- **Opacity** — 0–100% per-element transparency
+- **Blend Modes** — 16 modes (multiply, screen, overlay, difference, etc.)
+- **Shadows** — Drop shadow and inner shadow with offset, blur, spread, color
+- **Rich Typography** — ~40 Google Fonts (lazy-loaded), weight, italic, alignment, line height, letter spacing
 
-| Layer | Library |
-|---|---|
-| Canvas engine | [Leafer UI](https://www.leaferjs.com/) + `@leafer-in/editor` |
-| UI | React 19 |
-| Routing | TanStack Router (file-based) |
-| State | TanStack Store |
-| Styling | Tailwind CSS v4 |
-| Build | Vite |
-| Lint / Format | Biome |
-| Tests | Vitest |
+### Workflow
+- **Layers Panel** — Tree view with drag-to-reorder, rename, lock, visibility toggle
+- **Action Bar** — Group, mask, bring to front, send to back, lock, delete
+- **Smart Snap Guides** — Automatic alignment lines when dragging elements
+- **Export Panel** — PNG, JPG, WebP, BMP at configurable resolution, plus JSON and Canvas export
+- **Keyboard Shortcuts** — Every tool has a single-key shortcut; Space+drag to pan; scroll to zoom
 
-## Getting Started
+---
+
+## Quick Start
 
 ```bash
+git clone https://github.com/fayismahmood/leafer-editor.git
+cd leafer-editor
 pnpm install
-pnpm dev        # http://localhost:3000
+pnpm dev        # → http://localhost:3000
 ```
 
 Or with Bun:
@@ -39,34 +59,100 @@ bun run dev
 
 ## Scripts
 
-```bash
-pnpm dev        # development server
-pnpm build      # production build
-pnpm preview    # preview the production build
-pnpm test       # run tests with Vitest
-pnpm lint       # Biome lint
-pnpm format     # Biome format
-pnpm check      # Biome lint + format check
-```
+| Command | Description |
+|---|---|
+| `pnpm dev` | Start development server on port 3000 |
+| `pnpm build` | Production build |
+| `pnpm preview` | Preview production build locally |
+| `pnpm test` | Run tests with Vitest |
+| `pnpm lint` | Biome lint |
+| `pnpm format` | Biome format |
+| `pnpm check` | Biome lint + format check |
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Canvas Engine | [Leafer UI](https://www.leaferjs.com/) + `@leafer-in/editor`, `@leafer-in/animate`, `@leafer-in/corner`, `@leafer-in/state`, `@leafer-in/text-editor` |
+| UI Framework | React 19 |
+| Routing | TanStack Router (file-based, code-splitting) |
+| State | TanStack React Store |
+| Styling | Tailwind CSS v4 + `tw-animate-css` |
+| Components | shadcn/ui + Radix primitives |
+| Icons | Remixicon + Lucide |
+| Build | Vite 8 |
+| Language | TypeScript (strict mode) |
+| Lint/Format | Biome |
+| Testing | Vitest + Testing Library |
+
+---
 
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── editorCanvas.ts     # Leafer App setup, drag-to-draw logic
-│   ├── LeaferCanvas.tsx    # React mount point for the canvas
-│   ├── Toolbar.tsx         # Tool selection sidebar
-│   └── PropertiesPanel.tsx # Fill, stroke, opacity, font controls
+│   ├── editor/
+│   │   ├── canvas/           # Leafer app setup, drag-to-draw, selection logic
+│   │   ├── tools/            # Shape tools (rect, ellipse, line, star, pen, text, image, frame)
+│   │   ├── tools_properties/ # Per-tool property panels (fill, stroke, shadow, typography, etc.)
+│   │   ├── editorCanvas.ts   # Editor class: tool registration, event wiring, snap config
+│   │   └── configs.ts        # Editor configs (snap, move, rotate, select options)
+│   ├── ActionBar.tsx         # Group, mask, z-order, lock, delete actions
+│   ├── FramePopover.tsx      # Frame preset picker (paper, screen, social sizes)
+│   ├── LeaferCanvas.tsx      # React mount point for the Leafer canvas
+│   ├── PropertiesPanel.tsx   # Right panel: context-aware property controls
+│   ├── Toolbar.tsx           # Bottom toolbar with tool selection
+│   └── ui/                   # shadcn/ui primitives (button, popover, dialog, etc.)
 ├── store/
-│   └── editor.ts           # TanStack Store — activeTool, selection, style state
-└── routes/
-    ├── __root.tsx           # Root layout
-    └── index.tsx            # Editor page
+│   └── editor.ts             # TanStack Store: activeTool, selection, fill, stroke, opacity, shadows, text
+├── routes/
+│   ├── __root.tsx            # Root layout (nav, theme provider, toaster)
+│   ├── index.tsx             # Landing / marketing page
+│   └── edit.tsx              # Editor workspace
+└── lib/
+    └── utils.ts              # Shared utility functions
 ```
+
+---
 
 ## How It Works
 
-`editorCanvas.ts` creates a Leafer `App` with an embedded `Editor` instance. Drag events on the canvas root draw frames (only when `activeTool === 'frame'`). Each frame listens for its own drag events to draw child rectangles, skipping creation if `app.editor.leafList.length > 0` (i.e. something is already selected).
+**Canvas layer** (`editorCanvas.ts`) creates a Leafer `App` with an embedded `Editor` instance. Drawing tools are registered as custom tool classes that handle pointer events (drag-to-draw shapes on the canvas). Selection, move, resize, and rotate are handled by `@leafer-in/editor` with snap guides via `leafer-x-easy-snap`.
 
-State shared between the canvas and React UI lives in `editorStore` (TanStack Store). The `Toolbar` writes `activeTool`; `PropertiesPanel` reads and writes fill/stroke/opacity/fontSize.
+**React layer** manages UI panels (toolbar, properties, layers, export) and communicates with the canvas through `editorStore` (TanStack Store). When a tool is selected in the toolbar, the store dispatches the change and the editor canvas switches the active tool. When an element is selected on the canvas, the store is updated and the Properties panel re-renders with context-aware controls.
+
+**State flow:** `Toolbar ↔ editorStore ↔ EditorCanvas ↔ PropertiesPanel / LayersPanel / ActionBar`
+
+---
+
+## Roadmap
+
+- [ ] Undo / Redo — full history stack
+- [ ] SVG import / export
+- [ ] Multi-page support
+- [ ] Collaborative editing (real-time multi-user canvas)
+- [ ] Pen tool enhancements (more bezier controls)
+- [ ] Desktop app (Tauri)
+
+---
+
+## Contributing
+
+Contributions are welcome! This project is in active development.
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please run `pnpm check` before submitting to ensure lint and format pass.
+
+---
+
+## License
+
+MIT
