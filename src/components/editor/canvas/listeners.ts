@@ -1,4 +1,5 @@
 import type { App } from 'leafer-ui'
+import   { Text } from 'leafer-ui'
 import { EditorEvent } from '@leafer-in/editor'
 import { parseLeaferFill } from '#/components/editor/tools_properties/fields/ColorPicker'
 import { editorStore } from '#/store/editor'
@@ -7,6 +8,10 @@ import type { EditorState, StrokeAlign, StrokeCap, StrokeJoin, BlendMode, TextAl
 export function forceSelectModeInSelectTool(app: App) {
   editorStore.subscribe((state) => {
     app.editor.config.multipleSelect = state.activeTool === 'select'
+
+
+    app.editor.config.editSize = state.scaleOnResize ? 'font-size' : 'size'
+   
   })
 }
 

@@ -67,6 +67,7 @@ export interface EditorState {
   fontWeight: number
   italic: boolean
   textAlign: TextAlign
+  scaleOnResize: boolean
 }
 
 const initialState: EditorState = {
@@ -95,6 +96,7 @@ const initialState: EditorState = {
   fontWeight: 400,
   italic: false,
   textAlign: 'left',
+  scaleOnResize: false
 }
 
 export const editorStore = new Store<EditorState>(initialState)

@@ -64,6 +64,7 @@ export function TextProperties() {
   const fontWeight = useSelector(editorStore, (s) => s.fontWeight)
   const italic = useSelector(editorStore, (s) => s.italic)
   const textAlign = useSelector(editorStore, (s) => s.textAlign)
+  const scaleOnResize = useSelector(editorStore, (s) => s.scaleOnResize)
 
   const el = selectedElements[0] as any
 
@@ -85,6 +86,7 @@ export function TextProperties() {
 
   return (
     <BaseShapeProperties>
+    
       <Section title="Font">
         <NumberField
           label="Size"

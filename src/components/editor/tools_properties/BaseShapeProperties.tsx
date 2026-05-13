@@ -11,7 +11,7 @@ import {
   applyOpacity,
   applyBlendMode,
 } from './selectionActions'
-import { Section, ColorField, NumberField, SliderField, SelectField } from './fields'
+import { Section, ColorField, NumberField, SliderField, SelectField, ToggleField } from './fields'
 import { ShadowSection } from './ShadowSection'
 import type { BlendMode } from '#/store/editor'
 
@@ -73,6 +73,7 @@ export function BaseShapeProperties({
   const strokeJoin  = useSelector(editorStore, (s) => s.strokeJoin)
   const opacity     = useSelector(editorStore, (s) => s.opacity)
   const blendMode   = useSelector(editorStore, (s) => s.blendMode)
+  const scaleOnResize = useSelector(editorStore, (s) => s.scaleOnResize)
 
   return (
     <>
@@ -81,6 +82,14 @@ export function BaseShapeProperties({
           <ColorField label="Color" value={fillColor} onChange={applyFill} />
         </Section>
       )}
+
+      <Section title='layout'>
+              <ToggleField
+                label="Scale on Resize"
+                value={scaleOnResize}
+                onChange={(v) => editorStore.setState((state) => ({ ...state, scaleOnResize: v }))}
+              />
+          </Section>
 
       {showStroke && (
         <Section title="Stroke">
