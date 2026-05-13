@@ -61,7 +61,7 @@ function Nav() {
 				</div>
 				<div className="flex items-center gap-3">
 					<a
-						href="https://github.com"
+						href="https://github.com/your-username/leafer-editor"
 						className="text-muted-foreground transition-colors hover:text-foreground"
 					>
 						<RiGithubFill className="size-4" />
