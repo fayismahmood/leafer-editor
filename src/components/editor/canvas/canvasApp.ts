@@ -49,59 +49,50 @@ export function initCanvasApp(elm: HTMLDivElement): void {
   const snap = new Snap(app);
   snap.enable(true);
 
-  // app.on(DragEvent.START, (e: any) => {
-  //   if (editorStore.state.activeTool !== 'frame') return;
-  //   dragStartX = e.x;
-  //   dragStartY = e.y;
-  //   previewRect = new Rect({
-  //     x: dragStartX,
-  //     y: dragStartY,
-  //     width: 0,
-  //     height: 0,
-  //     fill: "rgba(0, 120, 255, 0.1)",
-  //     stroke: "#0078ff",
-  //     strokeWidth: 1,
-  //   });
-  //   app.tree.add(previewRect);
-  // });
-
-  // app.on(DragEvent.DRAG, (e: any) => {
-  //   if (!previewRect) return;
-  //   const curX = e.x;
-  //   const curY = e.y;
-  //   previewRect.set({
-  //     x: Math.min(dragStartX, curX),
-  //     y: Math.min(dragStartY, curY),
-  //     width: Math.abs(curX - dragStartX),
-  //     height: Math.abs(curY - dragStartY),
-  //   });
-  // });
-
-  // app.on(DragEvent.END, (e: any) => {
-  //   if (!previewRect) return;
-  //   const x = Math.min(dragStartX, e.x);
-  //   const y = Math.min(dragStartY, e.y);
-  //   const width = Math.abs(e.x - dragStartX);
-  //   const height = Math.abs(e.y - dragStartY);
-  //   previewRect.remove();
-  //   previewRect = null;
-  //   if (width < 4 || height < 4) return;
-  //   frameCount += 1;
-  //   const frame = createFrame({ x, y, width, height, name: `Frame ${frameCount}`, app });
-  //   app.tree.add(frame);
-  // });
-
-  const frame = createFrame({
-    x: 120,
-    y: 120,
-    width: 800,
-    height: 800,
-    name: `Frame ${frameCount}`,
-    app,
-
+  app.on(DragEvent.START, (e: any) => {
+    if (editorStore.state.activeTool !== 'frame') return;
+    const pagePoint = e.getPagePoint();
+    dragStartX = pagePoint.x;
+    dragStartY = pagePoint.y;
+    previewRect = new Rect({
+      x: dragStartX,
+      y: dragStartY,
+      width: 0,
+      height: 0,
+      fill: "rgba(0, 120, 255, 0.1)",
+      stroke: "#0078ff",
+      strokeWidth: 1,
+    });
+    app.tree.add(previewRect);
   });
 
-   app.tree.add(frame);
+  app.on(DragEvent.DRAG, (e: any) => {
+    if (!previewRect) return;
+    const pagePoint = e.getPagePoint();
+    const curX = pagePoint.x;
+    const curY = pagePoint.y;
+    previewRect.set({
+      x: Math.min(dragStartX, curX),
+      y: Math.min(dragStartY, curY),
+      width: Math.abs(curX - dragStartX),
+      height: Math.abs(curY - dragStartY),
+    });
+  });
+
+  app.on(DragEvent.END, (e: any) => {
+    if (!previewRect) return;
+    const pagePoint = e.getPagePoint();
+    const x = Math.min(dragStartX, pagePoint.x);
+    const y = Math.min(dragStartY, pagePoint.y);
+    const width = Math.abs(pagePoint.x - dragStartX);
+    const height = Math.abs(pagePoint.y - dragStartY);
+    previewRect.remove();
+    previewRect = null;
+    if (width < 4 || height < 4) return;
+    frameCount += 1;
+    const frame = createFrame({ x, y, width, height, name: `Frame ${frameCount}`, app });
+    app.tree.add(frame);
+  });
 
   elm.appendChild(canvasWrapper);
 }

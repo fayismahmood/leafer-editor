@@ -3,6 +3,7 @@ import type { ToolType } from '#/store/editor'
 import { useSelector } from '@tanstack/react-store'
 import { toolGroups } from './editor/tools'
 import { ToolbarGroup } from './ToolbarGroup'
+import { FramePopover } from './FramePopover'
 import { openImagePicker, loadImageSize } from '#/utils/imagePicker'
 import { getCanvasApp } from '#/utils/appInstance'
 import { Rect } from 'leafer-ui'
@@ -52,12 +53,16 @@ export function Toolbar() {
       {toolGroups.map((group, i) => (
         <div key={group.label} className="flex items-center gap-1">
           {i > 0 && <div className="w-px h-5 bg-gray-200 mx-0.5" />}
-          <ToolbarGroup
-            label={group.label}
-            tools={group.tools}
-            activeTool={activeTool}
-            onSelect={handleSelect}
-          />
+          {group.label === 'Layout' ? (
+            <FramePopover shortcut={group.tools[0].shortcut} />
+          ) : (
+            <ToolbarGroup
+              label={group.label}
+              tools={group.tools}
+              activeTool={activeTool}
+              onSelect={handleSelect}
+            />
+          )}
         </div>
       ))}
     </div>

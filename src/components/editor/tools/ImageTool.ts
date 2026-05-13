@@ -1,10 +1,8 @@
 import { Rect } from 'leafer-ui'
-import type { IUI } from 'leafer-ui'
-import type { App } from 'leafer-ui'
+import type { IUI, App } from 'leafer-ui'
 import { ShapeTool } from './ShapeTool'
 import type { ToolCreateOptions } from './types'
 import { getPendingImageUrl, clearPendingImageUrl } from '#/utils/imagePicker'
-import { setActiveTool } from '#/store/editor'
 
 /**
  * Secondary drag-to-place flow (primary flow is click → picker in Toolbar).
@@ -29,8 +27,8 @@ export class ImageTool extends ShapeTool {
     } as any)
   }
 
-  protected override onCreated(_element: IUI, _app: InstanceType<typeof App>): void {
-    clearPendingImageUrl()
-    setActiveTool('select')
+  protected override onCreated(element: IUI, app: InstanceType<typeof App>): void {
+    clearPendingImageUrl();
+    super.onCreated(element, app);
   }
 }

@@ -1,6 +1,6 @@
 import { App, DragEvent, Ellipse, Frame, Path, PointerEvent } from "leafer-ui";
 import type { IUI } from "leafer-ui";
-import { editorStore } from "#/store/editor";
+import { editorStore, setActiveTool } from "#/store/editor";
 import { Tool } from "./Tool";
 import type { ToolCreateOptions } from "./types";
 
@@ -226,6 +226,7 @@ export class PenTool extends Tool {
       isDrawing = false;
       downPos = null;
       pendingHandle = null;
+      setActiveTool('select');
       document.removeEventListener("keydown", onKeydown);
     };
 

@@ -37,6 +37,7 @@ export class TextTool extends ShapeTool {
   }
 
   protected override onCreated(element: IUI, app: InstanceType<typeof App>): void {
+    super.onCreated(element, app);
     (app as any).editor?.openInnerEditor(element);
   }
 }

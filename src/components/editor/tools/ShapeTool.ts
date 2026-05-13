@@ -1,6 +1,6 @@
 import { App, DragEvent, Frame } from "leafer-ui";
 import type { IUI } from "leafer-ui";
-import { editorStore } from "#/store/editor";
+import { editorStore, setActiveTool } from "#/store/editor";
 import { Tool } from "./Tool";
 
 export abstract class ShapeTool extends Tool {
@@ -46,8 +46,9 @@ export abstract class ShapeTool extends Tool {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected onCreated(_element: IUI, _app: InstanceType<typeof App>): void {}
+  protected onCreated(_element: IUI, _app: InstanceType<typeof App>): void {
+    setActiveTool('select');
+  }
 
   protected updateDrag(
     element: IUI,
