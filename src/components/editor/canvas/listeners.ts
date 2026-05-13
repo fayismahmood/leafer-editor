@@ -8,6 +8,9 @@ import type { EditorState, StrokeAlign, StrokeCap, StrokeJoin, BlendMode, TextAl
 export function forceSelectModeInSelectTool(app: App) {
   editorStore.subscribe((state) => {
     app.editor.config.multipleSelect = state.activeTool === 'select'
+  if(state.activeTool!="select"){
+      app.editor.cancel()
+    }
 
 
     app.editor.config.editSize = state.scaleOnResize ? 'font-size' : 'size'
