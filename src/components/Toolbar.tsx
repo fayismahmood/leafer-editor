@@ -4,9 +4,9 @@ import { useSelector } from '@tanstack/react-store'
 import { toolGroups } from './editor/tools'
 import { ToolbarGroup } from './ToolbarGroup'
 import { FramePopover } from './FramePopover'
-import { openImagePicker, loadImageSize } from '#/utils/imagePicker'
+import { openImagePicker, loadImageSize, getPendingImageUrl, clearPendingImageUrl } from '#/utils/imagePicker'
 import { getCanvasApp } from '#/utils/appInstance'
-import { Rect } from 'leafer-ui'
+import { Rect, PointerEvent } from 'leafer-ui'
 
 async function handleImageTool() {
   const url = await openImagePicker()
@@ -22,19 +22,38 @@ async function handleImageTool() {
   const w = Math.round(nw * scale)
   const h = Math.round(nh * scale)
 
-  // Place near top-left of the canvas with a small offset so it's immediately visible
-  const el = new Rect({
-    x: 60,
-    y: 60,
-    width:  w,
-    height: h,
-    editable: true,
-    fill: { type: 'image', url, mode: 'cover' },
-  } as any)
+  setActiveTool('image')
 
-  app.tree.add(el)
-  app.editor?.select(el)
-  setActiveTool('select')
+  function onClick(e: any) {
+    if (!getPendingImageUrl()) {
+      app.off(PointerEvent.CLICK, onClick)
+      return
+    }
+
+    const target = e.target
+    if (target && target !== (app as any).tree && typeof (target as any).fill !== 'undefined') {
+      target.set({ fill: { type: 'image', url, mode: 'cover' as any } })
+      app.editor?.select(target)
+    } else {
+      const pagePoint = e.getPagePoint()
+      const el = new Rect({
+        x: pagePoint.x - w / 2,
+        y: pagePoint.y - h / 2,
+        width: w,
+        height: h,
+        editable: true,
+        fill: { type: 'image', url, mode: 'cover' as any },
+      } as any)
+      app.tree.add(el)
+      app.editor?.select(el)
+    }
+
+    clearPendingImageUrl()
+    app.off(PointerEvent.CLICK, onClick)
+    setActiveTool('select')
+  }
+
+  app.on(PointerEvent.CLICK, onClick)
 }
 
 export function Toolbar() {
