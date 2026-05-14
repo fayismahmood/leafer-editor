@@ -7,6 +7,7 @@ import {
 	Group,
 	Lock,
 	LockOpen,
+	Maximize,
 	SendToBack,
 	Trash2,
 	Ungroup,
@@ -27,6 +28,7 @@ const MASK_OPTIONS: { type: MaskType; label: string }[] = [
 
 export function ActionBar() {
 	const selectedElements = useSelector(editorStore, (s) => s.selectedElements);
+	const scaleOnResize = useSelector(editorStore, (s) => s.scaleOnResize);
 
 	if (selectedElements.length === 0) return null;
 
@@ -58,6 +60,13 @@ export function ActionBar() {
 
 	function handleSendToBack() {
 		EditorHelper.toBottom([...selectedElements]);
+	}
+
+	function handleToggleScaleOnResize() {
+		editorStore.setState((state) => ({
+			...state,
+			scaleOnResize: !state.scaleOnResize,
+		}));
 	}
 
 	function handleGroup() {
@@ -111,6 +120,16 @@ export function ActionBar() {
 				icon={<SendToBack className="w-4 h-4" />}
 				title="Send to Back"
 				onClick={handleSendToBack}
+			/>
+			<div className="w-px h-5 bg-gray-200 mx-0.5" />
+			<ActionButton
+				icon={
+					<Maximize
+						className={`w-4 h-4 ${scaleOnResize ? "text-blue-500" : ""}`}
+					/>
+				}
+				title="Scale on Resize"
+				onClick={handleToggleScaleOnResize}
 			/>
 			<div className="w-px h-5 bg-gray-200 mx-0.5" />
 			<ActionButton

@@ -1,214 +1,199 @@
-# Meet Leafer Editor — A Free, Browser-Based Vector Design Tool
+---
+title: "Leafer Editor — A Free, Open-Source Vector Design Tool for the Browser"
+published: true
+description: "No installs. No accounts. No cost. A full-featured vector design editor built with Leafer UI and React."
+tags: design, opensource, webdev, react
+cover_image: https://raw.githubusercontent.com/fayismahmood/leafer-editor/main/.github/preview.png
+canonical_url: https://github.com/fayismahmood/leafer-editor
+---
+
+# Leafer Editor — A Free, Open-Source Vector Design Tool for the Browser
 
 > No installs. No accounts. No cost. Just open the browser and start designing.
 
 ---
 
-If you have ever needed to quickly sketch a UI, create a diagram, or put together a simple graphic — and did not want to open a heavy desktop app or sign up for yet another SaaS tool — **Leafer Editor** was built for exactly that moment.
+If you've ever needed to quickly sketch a UI, create a diagram, or put together a simple graphic — and didn't want to open a heavy desktop app or sign up for yet another SaaS tool — **Leafer Editor** was built for exactly that moment.
 
-It runs entirely in your browser. Everything you create stays on your machine. And it comes with a surprisingly complete set of design tools that cover the most common tasks you would normally reach for Figma or Illustrator to handle.
+It runs entirely in your browser. Everything you create stays on your machine. And it comes with a surprisingly complete set of design tools that cover the most common tasks you'd normally reach for Figma or Illustrator to handle.
 
-Let me walk you through every feature.
+Let me walk you through every feature. But first — jump in and try it yourself:
+
+**🖥 Live demo →** [leafer-editor.vercel.app](https://leafer-editor.vercel.app) — no sign-up, just start designing.
+**⭐ GitHub →** [fayismahmood/leafer-editor](https://github.com/fayismahmood/leafer-editor)
 
 ---
 
 ## The Canvas
 
-When you first open Leafer Editor you are greeted with a clean infinite canvas — a grey workspace with a single white **Frame** sitting in the centre. That frame is your artboard, the area you design inside.
+When you first open Leafer Editor you're greeted with a clean infinite canvas — a grey workspace with a single white **Frame** sitting in the centre. That frame is your artboard, the area you design inside.
 
-You can pan around the canvas by holding Space and dragging, and zoom in or out with the scroll wheel. The canvas is infinite, so you can place as many frames as you need side by side without running out of room.
+Pan around by holding `Space` and dragging. Zoom with the scroll wheel. The canvas is infinite — place as many frames side by side as you need without running out of room.
 
 ---
 
 ## Frames — Your Artboards
 
-A **Frame** is the container that holds all your design elements. Think of it like an artboard in Illustrator or a frame in Figma.
+A **Frame** is the container that holds all your design elements. Think artboard in Illustrator, frame in Figma.
 
 - Every shape, image, and text block lives inside a frame
-- Frames have a fixed width and height that you set in the Properties panel
-- Elements that go outside the frame boundary are clipped and hidden
-- You can name frames whatever you like — the name shows up in the Layers panel so you can navigate large designs easily
-- You can create as many frames as you need on one canvas — handy for designing multiple screens or states of the same UI side by side
+- Frames have a configurable width and height
+- Elements that overflow the frame boundary are clipped
+- Name frames whatever you like — names show in the Layers panel
+- Create as many frames as you need — handy for designing multiple screens side by side
+- **Presets** for paper sizes (A4, Letter, etc.), screen dimensions (1080p, 1440p, 4K), and social media formats (Instagram, Twitter, etc.)
 
-To create a new frame, press **F** or click the Frame tool in the toolbar, then click on the canvas.
+Press `F` or click the Frame tool, then pick a preset or draw a custom size.
 
 ---
 
-## The Toolbar
+## The Toolbar — 9 Tools, 9 Shortcuts
 
-At the bottom of the screen sits the toolbar — eight tools that cover everything you need to build a design:
+At the bottom of the screen sits the toolbar:
 
-| Icon | Key | What it does |
+| Tool | Key | What it does |
 |---|---|---|
-| Arrow | `V` | Select and move elements |
-| Square | `R` | Draw rectangles |
-| Circle | `O` | Draw ellipses and circles |
-| Line | `L` | Draw straight lines |
-| Star | `S` | Draw stars and polygons |
-| Text | `T` | Add and edit text |
-| Image | `I` | Insert a local image |
-| Frame | `F` | Create a new frame / artboard |
+| Select | `V` | Click, drag-select, move, resize, rotate |
+| Rectangle | `R` | Draw rectangles — buttons, cards, containers |
+| Ellipse | `O` | Circles, ellipses, arcs, pie slices |
+| Line | `L` | Straight lines with configurable stroke |
+| Star | `S` | 3–20 point stars and polygons |
+| **Pen** | `P` | Custom paths and bezier curves |
+| Text | `T` | Inline text editing on the canvas |
+| Image | `I` | Import images from your machine |
+| Frame | `F` | Create a new frame with presets |
 
-Every tool has a keyboard shortcut. Once you learn them, switching tools becomes second nature.
+Every tool has a keyboard shortcut. Switch tools without touching the mouse.
 
 ---
 
 ## Drawing Shapes
 
 ### Rectangle
-
-Press **R** and drag anywhere inside a frame to draw a rectangle. Rectangles are the backbone of most UI designs — buttons, cards, containers, backgrounds.
-
-Once drawn you can:
-
-- Resize it by dragging the corner handles
-- Rotate it by hovering just outside a corner until the rotate cursor appears
-- Round the corners using the **Corner Radius** slider in the Properties panel
-- Change fill colour, stroke, and opacity
+Press `R`, drag inside a frame. Resize with corner handles, rotate by hovering just outside a corner, round corners with the slider, and apply fills, strokes, shadows, and blend modes.
 
 ### Ellipse
-
-Press **O** and drag to draw an ellipse. Hold Shift while dragging to constrain it to a perfect circle. The Ellipse tool also supports drawing arcs and pie slices — useful for charts and progress indicators — by adjusting the start and end angle in the Properties panel.
+Press `O`, drag. Hold `Shift` for a perfect circle. Supports arcs and pie slices — great for charts and progress indicators.
 
 ### Line
-
-Press **L** and drag to draw a straight line. In the Properties panel you can adjust:
-
-- **Stroke width** — how thick the line is
-- **Cap style** — flat, round, or square ends
-- **Dash pattern** — turn any line into a dashed or dotted line
+Press `L`, drag. Adjust stroke width, cap style (flat/round/square), and dash patterns for dotted or dashed lines.
 
 ### Star
+Press `S`, drag. Not just five-point stars — anywhere from **3 to 20 points**. Adjust the inner radius ratio to morph from a sharp star to a flower shape.
 
-Press **S** and drag to draw a star. What makes this tool especially flexible is that it is not limited to five-point stars:
-
-- Set anywhere from **3 to 20 points**
-- Adjust the **inner radius ratio** to go from a sharp star shape all the way to a circle or flower shape
-- All the same fill, stroke, and shadow options apply
+### Pen
+Press `P`. Click to place anchor points, drag to create curves. Build custom paths and bezier shapes.
 
 ---
 
 ## The Text Tool
 
-Press **T**, click inside a frame, and start typing. Leafer Editor uses an inline text editor built directly into the canvas — there is no modal or separate input box. You type right on the canvas, just like you would in Figma.
+Press `T`, click inside a frame, and start typing. Leafer Editor uses an **inline text editor** on the canvas — no modal, no separate input box. Type directly on the canvas, Figma-style.
 
-Once you have placed a text block, the Properties panel gives you full control over typography:
+The Properties panel gives you full typography control:
 
-- **Font family** — choose from a curated list of ~40 popular Google Fonts, with each font previewed in its own typeface in the dropdown
-- **Font size**
+- **Font family** — ~40 popular Google Fonts, each previewed in its own typeface in the dropdown
 - **Font weight** — Normal, Bold, 600, or 800
 - **Italic**
 - **Alignment** — Left, Centre, Right, Justify
-- **Line height**
-- **Letter spacing**
+- **Line height** and **letter spacing**
 
-Fonts are loaded lazily — only the fonts you actually use are downloaded, so the app stays fast.
+Fonts are lazy-loaded — only the ones you use are downloaded.
 
 ---
 
 ## The Image Tool
 
-Press **I** and a file picker opens immediately. Select any image from your computer (PNG, JPG, WebP, GIF) and it appears on the canvas at a sensible default size. From there you can:
+Press `I` to open a file picker. Select any image (PNG, JPG, WebP, GIF) and it appears on the canvas at a sensible size. Drag to reposition, resize with handles, and apply opacity and blend modes like any other element.
 
-- Drag to reposition
-- Resize with the corner handles
-- Apply opacity and blend mode effects just like any other element
-
-Everything stays local — your images are not uploaded anywhere.
+Everything stays local. Images are never uploaded anywhere.
 
 ---
 
 ## The Select Tool
 
-Press **V** to switch to the Select tool. This is your main tool for working with elements you have already created.
+Press `V` to work with elements you've already created:
 
-- **Click** any element to select it and see its properties in the right panel
-- **Drag** a selection box over multiple elements to select them all at once
-- **Drag** a selected element to move it
-- **Drag the corner handles** to resize
-- **Hover just outside a corner** then drag to rotate
-- **Click an empty area** to deselect everything
+- **Click** an element to select it and see its properties
+- **Drag a selection box** to select multiple elements at once
+- **Drag** to move selected elements
+- **Corner handles** to resize
+- **Hover just outside a corner** to rotate
+- **Click empty space** to deselect
 
-When multiple elements are selected, any property change in the panel applies to all of them simultaneously.
+When multiple elements are selected, property changes apply to all of them simultaneously.
 
 ---
 
-## The Properties Panel
+## The Properties Panel — Deep Styling
 
-The right-side panel is context-aware — it shows different controls depending on what you have selected. Here is everything it can do.
+The right-side panel is context-aware — different controls depending on what's selected.
 
 ### Fill
-
-Every shape and text block can have a fill. Click the colour swatch to open the colour picker.
-
-**Solid fill:**
-The colour picker gives you a hue-saturation canvas, a hue slider, an opacity slider, and hex/RGB inputs. Pick any colour precisely or paste a hex code.
-
-**Gradient fill:**
-Switch to gradient mode to apply a linear or radial gradient. A gradient bar shows a live preview of your gradient. You can:
-
-- Click anywhere on the bar to add a new colour stop
-- Drag stops left or right to reposition them
-- Click a stop to edit its colour and opacity
-- Double-click a stop to remove it
+Solid colors via hue-saturation picker with hex/RGB inputs. Switch to **gradient mode** for linear or radial gradients with a multi-stop gradient bar — click to add stops, drag to reposition, double-click to remove.
 
 ### Stroke
-
-Add a border to any shape:
-
-- **Colour** — same colour picker as fill
-- **Width** — how thick the border is
-- **Alignment** — inside the shape, centred on the edge, or outside the shape
+Border color, width, and alignment — **inside**, **centre**, or **outside** the shape boundary. Cap and join styles for lines.
 
 ### Opacity
+Slider from 0% (invisible) to 100% (fully opaque) for the entire element.
 
-A slider from 0% (invisible) to 100% (fully opaque). This controls the transparency of the whole element, including any fill or stroke.
+### Blend Modes — 16 Modes
+Multiply, Screen, Overlay, Darken, Lighten, Color Dodge, Color Burn, Hard Light, Soft Light, Difference, Exclusion, Hue, Saturation, Color, Luminosity — plus Normal.
 
-### Blend Mode
+A black rectangle set to Multiply lets the texture of the layer below show through. These unlock a lot of creative effects.
 
-Choose how an element composites with whatever is beneath it. All the standard modes are available: Multiply, Screen, Overlay, Darken, Lighten, Colour Dodge, Colour Burn, Hard Light, Soft Light, Difference, Exclusion, Hue, Saturation, Colour, Luminosity.
-
-Blend modes unlock a lot of creative effects — for example, a black rectangle on Multiply lets the texture of the layer below show through.
-
-### Shadow
-
-**Drop Shadow** — projects a shadow behind the element. Controls:
-
-- On/off toggle
-- Shadow colour
-- Offset X and Y (direction of the shadow)
-- Blur (soft vs hard shadow)
-- Spread (how much larger or smaller the shadow is than the element)
-
-**Inner Shadow** — projects a shadow inside the element, giving it a pressed-in or embossed look. Same controls as drop shadow.
-
-Both shadows update in real time as you adjust the sliders.
+### Shadows
+**Drop Shadow** — offset X/Y, blur, spread, and color. **Inner Shadow** — same controls, pressed-in or embossed look. Both update in real time as you tweak sliders.
 
 ---
 
-## Snap to Grid
+## Action Bar
 
-When you drag any element, **smart snap guides** appear automatically — dashed lines that show when an element is aligned with another element's edge or centre, or with the canvas grid. The element snaps into place when you are close.
+A context bar at the top of the canvas for common operations:
 
-This makes it effortless to keep your design aligned without manual positioning or doing mental arithmetic about coordinates.
+- **Group** — combine selected elements into a group
+- **Mask** — apply clipping masks for advanced shape workflows
+- **Bring to Front / Send to Back** — control z-order with one click
+- **Lock / Unlock** — prevent accidental edits
+- **Delete** — remove selected elements
+
+---
+
+## Smart Snap Guides
+
+Drag any element and **dashed alignment lines** appear automatically — showing when you're aligned with another element's edge or centre, or with the canvas grid. The element snaps into place when you're close.
+
+No more manual positioning or mental math about coordinates.
 
 ---
 
 ## The Layers Panel
 
-Switch to the **Layers** tab in the right panel to see your entire canvas as a tree — every frame with all its children listed in order.
+Switch to the Layers tab to see your canvas as a tree — every frame with all its children in z-order.
 
-### Navigate by clicking
-Click any layer row to select that element on the canvas. Great for selecting elements that are hidden behind others or are too small to click accurately.
+- **Click any layer row** to select it on the canvas — great for elements hidden behind others
+- **Drag and drop** to reorder — canvas updates instantly
+- **Double-click a name** to rename — keeps large designs navigable
+- **Lock and visibility toggles** — hide elements while you work, lock the ones you're done with
+- **Type icons** beside every row — rectangle, circle, text, image, frame
 
-### Reorder with drag and drop
-Drag any layer row up or down to change the stacking order. The canvas updates instantly.
+---
 
-### Rename anything
-Double-click any layer name to rename it. Press Enter or click away to confirm. Keeping layers named meaningfully pays off as designs grow.
+## Export Panel
 
-### Visual hierarchy
-Child elements are indented beneath their parent frame. A small type icon (rectangle, circle, text, image, frame) appears beside every row so you can identify elements at a glance.
+When your design is ready, export it in any format:
+
+| Format | Details |
+|---|---|
+| **PNG** | Configurable resolution, transparent background |
+| **JPG** | Configurable quality |
+| **WebP** | Modern format, smaller files |
+| **BMP** | Uncompressed bitmap |
+| **JSON** | Full Leafer scene data for programmatic use |
+| **Canvas** | Raw pixel data |
+
+Export individual elements or entire frames. Pick the resolution — 1x, 2x, 3x, or custom.
 
 ---
 
@@ -216,51 +201,62 @@ Child elements are indented beneath their parent frame. A small type icon (recta
 
 | Shortcut | Action |
 |---|---|
-| `V` | Select tool |
-| `R` | Rectangle tool |
-| `O` | Ellipse tool |
-| `L` | Line tool |
-| `S` | Star tool |
-| `T` | Text tool |
-| `I` | Image tool |
-| `F` | Frame tool |
+| `V` | Select |
+| `R` | Rectangle |
+| `O` | Ellipse |
+| `L` | Line |
+| `S` | Star |
+| `P` | Pen |
+| `T` | Text |
+| `I` | Image |
+| `F` | Frame |
 | `Space + drag` | Pan canvas |
 | `Scroll` | Zoom |
-| `Double-click text` | Edit text inline |
-| `Double-click layer name` | Rename layer |
+| `Delete` | Remove selected |
+| `Ctrl/Cmd + G` | Group |
+| `Ctrl/Cmd + ]` | Bring to front |
+| `Ctrl/Cmd + [` | Send to back |
 
 ---
 
-## Try It Yourself
+## The Tech Stack (for developers)
 
-Leafer Editor runs locally with no backend. Get it running in under a minute:
+| Layer | Technology |
+|---|---|
+| Canvas engine | [Leafer UI](https://www.leaferjs.com/) + editor plugins |
+| UI framework | React 19 |
+| Routing | TanStack Router (file-based) |
+| State | TanStack React Store |
+| Styling | Tailwind CSS v4 |
+| Build | Vite 8 |
+| Language | TypeScript (strict) |
+| Lint/Format | Biome |
+| Testing | Vitest + Testing Library |
 
-```bash
-git clone https://github.com/your-username/leafer-editor
-cd leafer-editor
-pnpm install && pnpm dev
-```
-
-Then open [http://localhost:3000](http://localhost:3000) and start designing.
+The entire editor is ~50 source files. The canvas layer (`editorCanvas.ts`) creates a Leafer `App` with an embedded `Editor` instance. Drawing tools are registered as custom tool classes. State flows through a single TanStack Store, keeping the React UI and canvas engine in sync.
 
 ---
 
 ## What's Next
 
-Leafer Editor is actively being developed. On the roadmap:
+Leafer Editor is in active development. On the roadmap:
 
-- **Pen / Bezier tool** — draw custom paths and curves
-- **Export** — save frames as PNG or SVG
-- **Multiple pages** — organise a multi-screen design in one file
 - **Undo / Redo** — full history stack
+- **SVG export** — vector format support
+- **Multi-page support** — organise multi-screen designs in one file
 - **Collaborative editing** — real-time multi-user canvas
+- **Desktop app** — wrapped with Tauri for offline use
 
 ---
 
-Whether you are a designer who wants a lightweight tool that gets out of your way, or a developer who wants to understand how a canvas editor is built from the ground up, Leafer Editor is worth a look.
+## Why I Built This
 
-Give it a try and let me know what you think in the comments.
+I wanted a design tool that gets out of the way. No accounts. No Electron bloat. No feature creep. Just a canvas, some shapes, and the ability to export something useful. The idea was to prove that a production-quality canvas experience can fit in a ~50-file TypeScript codebase running entirely client-side.
+
+If that resonates — designer looking for a lightweight tool, or developer curious how a canvas editor is built from scratch — Leafer Editor is worth a look.
+
+**Star the repo, try it out, and let me know what you think in the comments.**
 
 ---
 
-**Tags:** `design`, `opensource`, `productivity`, `webdev`
+*Leafer Editor is MIT licensed. Built with [Leafer UI](https://www.leaferjs.com/) and React.*
