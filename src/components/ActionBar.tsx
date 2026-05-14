@@ -124,13 +124,13 @@ export function ActionBar() {
 			<div className="w-px h-5 bg-gray-200 mx-0.5" />
 			<ActionButton
 				icon={
-					<Maximize
-						className={`w-4 h-4 ${scaleOnResize ? "text-blue-500" : ""}`}
-					/>
+					<Maximize className="w-4 h-4" />
 				}
 				title="Scale on Resize"
 				onClick={handleToggleScaleOnResize}
+				active={scaleOnResize}
 			/>
+			 
 			<div className="w-px h-5 bg-gray-200 mx-0.5" />
 			<ActionButton
 				icon={
@@ -142,6 +142,7 @@ export function ActionBar() {
 				}
 				title={allLocked ? "Unlock" : "Lock"}
 				onClick={handleToggleLock}
+				active={allLocked}
 			/>
 			<div className="w-px h-5 bg-gray-200 mx-0.5" />
 			<ActionButton
@@ -215,16 +216,18 @@ function ActionButton({
 	icon,
 	title,
 	onClick,
+	active,
 }: {
 	icon: React.ReactNode;
 	title: string;
 	onClick: () => void;
+	active?: boolean;
 }) {
 	return (
 		<button
 			type="button"
 			title={title}
-			className="flex items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:bg-gray-100 transition-colors"
+			className={`flex items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:bg-gray-100 transition-colors ${active ? "bg-blue-100 text-blue-600" : ""}`}
 			onClick={onClick}
 		>
 			{icon}
