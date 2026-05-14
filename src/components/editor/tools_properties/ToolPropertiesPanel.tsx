@@ -76,11 +76,11 @@ type PanelTab = "properties" | "layers" | "export";
 const TABS: { id: PanelTab; icon: React.ReactNode; title: string }[] = [
 	{
 		id: "properties",
-		icon: <SlidersHorizontal size={14} />,
+		icon: <SlidersHorizontal size={24} />,
 		title: "Properties",
 	},
-	{ id: "layers", icon: <Layers size={14} />, title: "Layers" },
-	{ id: "export", icon: <Download size={14} />, title: "Export" },
+	{ id: "layers", icon: <Layers size={24} />, title: "Layers" },
+	{ id: "export", icon: <Download size={24} />, title: "Export" },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -211,8 +211,7 @@ export function ToolPropertiesPanel() {
 
 			{/* Tab strip — always visible, pinned to the right */}
 			<div
-				style={{ width: TAB_WIDTH }}
-				className="shrink-0 bg-gray-50 border-l border-gray-100 flex flex-col items-center py-3 gap-1"
+				className="shrink-0 bg-gray-100 border-l border-gray-200 flex flex-col items-center py-2 gap-1"
 			>
 				{TABS.map((tab) => {
 					const isActive = !collapsed && activeTab === tab.id;
@@ -221,10 +220,10 @@ export function ToolPropertiesPanel() {
 							key={tab.id}
 							onClick={() => handleTabClick(tab.id)}
 							title={tab.title}
-							className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${
+							className={`w-11 h-11 flex items-center justify-center transition-all ${
 								isActive
-									? "bg-blue-500 text-white shadow-sm"
-									: "text-gray-400 hover:bg-gray-200 hover:text-gray-700"
+									? "bg-white text-blue-600 shadow-sm ring-1 ring-gray-200"
+									: "text-gray-500 hover:bg-gray-200 hover:text-gray-700"
 							}`}
 						>
 							{tab.icon}

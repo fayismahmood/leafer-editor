@@ -6,7 +6,7 @@ interface ToggleFieldProps {
 
 export function ToggleField({ label, value, onChange }: ToggleFieldProps) {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-1">
       <label className="text-xs text-gray-500 font-medium leading-none">{label}</label>
       <button
         type="button"

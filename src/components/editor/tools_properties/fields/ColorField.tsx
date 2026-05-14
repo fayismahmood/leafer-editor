@@ -33,10 +33,10 @@ export function ColorField({ label, value, onChange }: ColorFieldProps) {
   const displayText = paintToDisplayString(value)
 
   return (
-    <div className="flex items-center gap-2">
-      <label className="text-xs text-gray-500 w-12 shrink-0">{label}</label>
+    <div className="flex flex-col gap-1">
+      <label className="text-xs text-gray-500 font-medium">{label}</label>
 
-      <div className="relative flex-1" ref={triggerRef}>
+      <div className="relative w-full" ref={triggerRef}>
         {/* Swatch / trigger */}
         <div
           className="flex items-center gap-1.5 h-6 px-1.5 rounded border border-gray-300 cursor-pointer hover:border-gray-400 transition-colors"

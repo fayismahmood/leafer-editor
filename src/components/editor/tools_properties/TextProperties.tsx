@@ -100,13 +100,11 @@ export function TextProperties() {
 					max={999}
 					unit="px"
 				/>
-				<div className="flex items-center gap-3">
-					<label className="text-xs text-gray-500 w-14 shrink-0 font-medium leading-none">
+				<div className="flex flex-col gap-1">
+					<label className="text-xs text-gray-500 font-medium leading-none">
 						Family
 					</label>
-					<div className="flex-1 min-w-0">
-						<FontPicker value={fontFamily} onChange={applyFontFamily} />
-					</div>
+					<FontPicker value={fontFamily} onChange={applyFontFamily} />
 				</div>
 				<SelectField
 					label="Weight"

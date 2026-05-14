@@ -18,11 +18,11 @@ export function NumberField({
   unit,
 }: NumberFieldProps) {
   return (
-    <div className="flex items-center gap-3">
-      <label className="text-xs text-gray-500 w-14 shrink-0 font-medium leading-none">
+    <div className="flex flex-col gap-1">
+      <label className="text-xs text-gray-500 font-medium leading-none">
         {label}
       </label>
-      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+      <div className="flex items-center gap-1.5">
         <input
           type="number"
           value={value}

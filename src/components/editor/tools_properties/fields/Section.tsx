@@ -7,13 +7,12 @@ interface SectionProps {
 
 export function Section({ title, children }: SectionProps) {
   return (
-    <div className="px-5 pt-5 pb-6">
-      {/* Title row with a visible rule */}
-      <div className="flex items-center gap-3 mb-4">
-        <span className="text-[11px] font-semibold text-gray-700 uppercase tracking-widest whitespace-nowrap">
+    <div className="px-5 pt-4 pb-5 border-b border-gray-100 last:border-b-0">
+      {/* Title row with accent */}
+      <div className="flex items-center gap-2 mb-3">
+         <span className="text-xs font-bold text-gray-800 uppercase tracking-wider">
           {title}
         </span>
-        <div className="flex-1 h-px bg-gray-200" />
       </div>
 
       <div className="flex flex-col gap-3">{children}</div>
