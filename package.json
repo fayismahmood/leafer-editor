@@ -15,6 +15,7 @@
     "check": "biome check"
   },
   "dependencies": {
+    "@ai-sdk/react": "^3.0.185",
     "@base-ui/react": "^1.4.1",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
@@ -32,6 +33,7 @@
     "@tanstack/router-plugin": "^1.132.0",
     "@types/react-color": "^3.0.13",
     "@uiw/react-color": "^2.10.1",
+    "ai": "^6.0.183",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "leafer-ui": "^2.1.0",

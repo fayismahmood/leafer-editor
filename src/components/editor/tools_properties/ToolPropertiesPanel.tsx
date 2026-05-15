@@ -1,5 +1,5 @@
 import { useSelector } from "@tanstack/react-store";
-import { Download, Layers, SlidersHorizontal } from "lucide-react";
+import { Download, Layers, SlidersHorizontal, Upload, Bot } from "lucide-react";
 import type { ComponentType } from "react";
 import { useRef, useState } from "react";
 import type { ToolType } from "#/store/editor";
@@ -8,6 +8,8 @@ import { BaseShapeProperties } from "./BaseShapeProperties";
 import { EllipseProperties } from "./EllipseProperties";
 import { ExportPanel } from "./ExportPanel";
 import { FrameProperties } from "./FrameProperties";
+import { ImportPanel } from "./ImportPanel";
+import { AIChatPanel } from "./AIChatPanel";
 import { LayersPanel } from "./LayersPanel";
 import { LineProperties } from "./LineProperties";
 import { PenProperties } from "./PenProperties";
@@ -69,7 +71,7 @@ const MIN_WIDTH = 360;
 const MAX_WIDTH = 900;
 const DEFAULT_WIDTH = 520;
 
-type PanelTab = "properties" | "layers" | "export";
+type PanelTab = "properties" | "layers" | "export" | "import" | "ai";
 
 // ── Tab definition ────────────────────────────────────────────────────────────
 
@@ -81,6 +83,8 @@ const TABS: { id: PanelTab; icon: React.ReactNode; title: string }[] = [
 	},
 	{ id: "layers", icon: <Layers size={24} />, title: "Layers" },
 	{ id: "export", icon: <Download size={24} />, title: "Export" },
+	{ id: "import", icon: <Upload size={24} />, title: "Import" },
+	{ id: "ai", icon: <Bot size={24} />, title: "AI" },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -109,11 +113,15 @@ export function ToolPropertiesPanel() {
 		properties: propertiesLabel,
 		layers: "Layers",
 		export: "Export",
+		import: "Import",
+		ai: "AI Assistant",
 	};
 	const headerTabSub: Record<PanelTab, string> = {
 		properties: "Properties",
 		layers: "Canvas tree",
 		export: "Export as image / data",
+		import: "Import from external sources",
+		ai: "Generate Leafer JSON with AI",
 	};
 
 	const headerLabel = headerTabLabel[activeTab];
@@ -202,6 +210,10 @@ export function ToolPropertiesPanel() {
 							<PropertiesComponent key={elementKey} />
 						) : activeTab === "export" ? (
 							<ExportPanel />
+						) : activeTab === "import" ? (
+							<ImportPanel />
+						) : activeTab === "ai" ? (
+							<AIChatPanel />
 						) : (
 							<LayersPanel />
 						)}
