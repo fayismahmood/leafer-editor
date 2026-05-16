@@ -6,10 +6,10 @@ export interface AIConfig {
 }
 
 const DEFAULT_CONFIG: AIConfig = {
-  provider: "openai",
+  provider: "opencode-go",
   apiKey: "",
-  model: "gpt-4o",
-  endpoint: "",
+  model: "opencode-go",
+  endpoint: "http://127.0.0.1:8080",
 }
 
 export const aiSettingsStorage = {

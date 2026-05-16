@@ -25,6 +25,7 @@ const PROVIDERS = [
   { value: "xai", label: "xAI" },
   { value: "groq", label: "Groq" },
   { value: "perplexity", label: "Perplexity" },
+  { value: "opencode-go", label: "OpenCode Go" },
 ]
 
 const MODELS: Record<string, { value: string; label: string }[]> = {
@@ -60,6 +61,9 @@ const MODELS: Record<string, { value: string; label: string }[]> = {
   perplexity: [
     { value: "sonar", label: "Sonar" },
     { value: "sonar-pro", label: "Sonar Pro" },
+  ],
+  "opencode-go": [
+    { value: "opencode-go", label: "OpenCode Go" },
   ],
 }
 
@@ -125,16 +129,17 @@ export function AIChatSettings({
 
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-500 font-medium">
-            {PROVIDERS.find((p) => p.value === provider)?.label} API Key
+            {provider === "opencode-go" ? "OpenCode Go" : PROVIDERS.find((p) => p.value === provider)?.label} API Key
           </label>
           <div className="relative">
             <input
               type={showKey ? "text" : "password"}
               value={apiKey}
               onChange={(e) => onApiKeyChange(e.target.value)}
-              placeholder={`Enter your ${PROVIDERS.find((p) => p.value === provider)?.label} API key`}
+              placeholder={provider === "opencode-go" ? "No API key needed" : `Enter your ${PROVIDERS.find((p) => p.value === provider)?.label} API key`}
+              disabled={provider === "opencode-go"}
               className="w-full h-8 text-xs bg-gray-50 border border-gray-200 rounded-lg px-2 pr-8 min-w-0
-                focus:outline-none focus:border-blue-400 focus:bg-white transition-colors"
+                focus:outline-none focus:border-blue-400 focus:bg-white transition-colors disabled:bg-gray-100"
             />
             <button
               type="button"
