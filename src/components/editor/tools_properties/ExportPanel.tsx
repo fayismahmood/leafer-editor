@@ -1,9 +1,15 @@
 import "@leafer-in/export";
 import { useSelector } from "@tanstack/react-store";
-import { Download, FileImage, FileJson, Globe, Image, ImageDown, LayoutPanelTop } from "lucide-react";
-import { useState } from "react";
+import { Download, FileImage, FileJson, Globe, Image, ImageDown, LayoutPanelTop, Loader2 } from "lucide-react";
+import { useState, useCallback } from "react";
 import { editorStore } from "#/store/editor";
 import { getCanvasApp } from "#/utils/appInstance";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
 	NumberField,
 	Section,
@@ -46,6 +52,12 @@ function downloadBlob(blob: Blob, filename: string) {
 	URL.revokeObjectURL(url);
 }
 
+function getExportDataUrl(data: string, format: ExportFormat, mime: string): string {
+	if (format === "json") return data;
+	const base64 = data as string;
+	return base64.startsWith("data:") ? base64 : `data:${mime};base64,${base64}`;
+}
+
 export function ExportPanel() {
 	const selectedElements = useSelector(editorStore, (s) => s.selectedElements);
 
@@ -60,8 +72,76 @@ export function ExportPanel() {
 	const [screenshot, setScreenshot] = useState(false);
 	const [padding, setPadding] = useState(0);
 	const [exporting, setExporting] = useState(false);
+	const [previewContent, setPreviewContent] = useState("");
+	const [previewIsImage, setPreviewIsImage] = useState(true);
+	const [previewGenerating, setPreviewGenerating] = useState(false);
 
 	const showQuality = format === "jpg" || format === "webp";
+
+	const buildOptions = useCallback(() => {
+		const options: Record<string, unknown> = {};
+		if (showQuality) options.quality = quality;
+		if (scale !== 1) options.scale = scale;
+		if (pixelRatio !== 1) options.pixelRatio = pixelRatio;
+		if (width > 0 || height > 0) {
+			options.size = {
+				...(width > 0 ? { width } : {}),
+				...(height > 0 ? { height } : {}),
+			};
+		}
+		if (fill && fill !== "#ffffff") options.fill = fill;
+		if (trim) options.trim = true;
+		if (screenshot) options.screenshot = true;
+		if (padding > 0) options.padding = padding;
+		return options;
+	}, [showQuality, quality, scale, pixelRatio, width, height, fill, trim, screenshot, padding]);
+
+	const getTarget = useCallback(() => {
+		const app = getCanvasApp();
+		if (!app) return null;
+		return screenshot || selectedElements.length === 0 ? app : selectedElements[0];
+	}, [screenshot, selectedElements]);
+
+	const generatePreview = useCallback(async () => {
+		const target = getTarget();
+		if (!target) return;
+
+		setPreviewGenerating(true);
+		try {
+			const options = buildOptions();
+			const result = await target.export(format, options as never);
+			const data = (result as unknown as { data: string }).data;
+
+			if (!data) {
+				setPreviewContent("No data returned from export.");
+				setPreviewIsImage(false);
+				return;
+			}
+
+			const mimeMap: Record<string, string> = {
+				png: "image/png",
+				jpg: "image/jpeg",
+				webp: "image/webp",
+				bmp: "image/bmp",
+				json: "application/json",
+				canvas: "image/png",
+			};
+			const mime = mimeMap[format] ?? "image/png";
+
+			if (format === "json") {
+				setPreviewContent(JSON.stringify(data, null, 2));
+				setPreviewIsImage(false);
+			} else {
+				setPreviewContent(getExportDataUrl(data, format, mime));
+				setPreviewIsImage(true);
+			}
+		} catch {
+			setPreviewContent("Failed to generate preview.");
+			setPreviewIsImage(false);
+		} finally {
+			setPreviewGenerating(false);
+		}
+	}, [format, buildOptions, getTarget]);
 
 	const handleExport = async () => {
 		const app = getCanvasApp();
@@ -69,24 +149,9 @@ export function ExportPanel() {
 
 		setExporting(true);
 		try {
-			const options: Record<string, unknown> = {};
-
-			if (showQuality) options.quality = quality;
-			if (scale !== 1) options.scale = scale;
-			if (pixelRatio !== 1) options.pixelRatio = pixelRatio;
-			if (width > 0 || height > 0) {
-				options.size = {
-					...(width > 0 ? { width } : {}),
-					...(height > 0 ? { height } : {}),
-				};
-			}
-			if (fill && fill !== "#ffffff") options.fill = fill;
-			if (trim) options.trim = true;
-			if (screenshot) options.screenshot = true;
-			if (padding > 0) options.padding = padding;
-
-			const target =
-				screenshot || selectedElements.length === 0 ? app : selectedElements[0];
+			const options = buildOptions();
+			const target = getTarget();
+			if (!target) return;
 
 			const result = await target.export(format, options as never);
 			const data = (result as unknown as { data: string }).data;
@@ -112,13 +177,9 @@ export function ExportPanel() {
 				downloadBlob(blob, `export.${format}`);
 			} else {
 				const base64 = data as string;
-				if (!base64.startsWith("data:")) {
-					const blob = dataURLtoBlob(`data:${mime};base64,${base64}`);
-					downloadBlob(blob, `export.${ext}`);
-				} else {
-					const blob = dataURLtoBlob(base64);
-					downloadBlob(blob, `export.${ext}`);
-				}
+				const dataUrl = base64.startsWith("data:") ? base64 : `data:${mime};base64,${base64}`;
+				const blob = dataURLtoBlob(dataUrl);
+				downloadBlob(blob, `export.${ext}`);
 			}
 		} catch (error) {
 			console.error("Export failed:", error);
@@ -225,6 +286,44 @@ export function ExportPanel() {
 					onChange={setScreenshot}
 				/>
 			</Section>
+
+			<div className="px-5 border-b border-gray-100">
+				<Accordion
+					className="border-0 rounded-none px-0"
+					onValueChange={(value) => {
+						if (value) generatePreview();
+					}}
+				>
+					<AccordionItem value="preview">
+						<AccordionTrigger>
+							<div className="flex items-center gap-2">
+								<Image size={14} className="text-muted-foreground" />
+								<span>Preview</span>
+							</div>
+						</AccordionTrigger>
+						<AccordionContent>
+							{previewGenerating ? (
+								<div className="flex items-center justify-center gap-2 py-8 text-muted-foreground">
+									<Loader2 size={16} className="animate-spin" />
+									<span>Generating preview...</span>
+								</div>
+							) : previewIsImage ? (
+								<div className="flex items-center justify-center bg-gray-50 rounded-xl overflow-hidden">
+									<img
+										src={previewContent}
+										alt="Export preview"
+										className="max-w-full h-auto object-contain"
+									/>
+								</div>
+							) : (
+								<pre className="max-h-60 overflow-auto bg-gray-50 rounded-xl p-3 text-xs font-mono whitespace-pre-wrap break-all">
+									{previewContent}
+								</pre>
+							)}
+						</AccordionContent>
+					</AccordionItem>
+				</Accordion>
+			</div>
 
 			<div className="px-5 pt-2 pb-6">
 				<button
