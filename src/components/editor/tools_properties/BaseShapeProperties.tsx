@@ -84,7 +84,9 @@ export function BaseShapeProperties({
 		<>
 			{showFill && (
 				<Section title="Fill">
-					<ColorField label="Color" value={fillColor} onChange={applyFill} />
+					<div className="col-span-full">
+						<ColorField label="Color" value={fillColor} onChange={applyFill} />
+					</div>
 				</Section>
 			)}
 
@@ -105,50 +107,24 @@ export function BaseShapeProperties({
 						unit="px"
 					/>
 
-					{/* Align / Cap / Join in a 3-col grid */}
-					<div className="grid grid-cols-3 gap-2 pt-1">
-						{(
-							[
-								{
-									label: "Align",
-									value: strokeAlign,
-									opts: STROKE_ALIGN_OPTIONS,
-									fn: (v: string) => applyStrokeAlign(v as typeof strokeAlign),
-								},
-								{
-									label: "Cap",
-									value: strokeCap,
-									opts: STROKE_CAP_OPTIONS,
-									fn: (v: string) => applyStrokeCap(v as typeof strokeCap),
-								},
-								{
-									label: "Join",
-									value: strokeJoin,
-									opts: STROKE_JOIN_OPTIONS,
-									fn: (v: string) => applyStrokeJoin(v as typeof strokeJoin),
-								},
-							] as const
-						).map(({ label, value, opts, fn }) => (
-							<div key={label} className="flex flex-col gap-1">
-								<span className="text-[10px] text-gray-400 font-medium uppercase tracking-wide text-center leading-none">
-									{label}
-								</span>
-								<select
-									value={value}
-									onChange={(e) => fn(e.target.value)}
-									className="w-full h-7 text-[11px] bg-gray-50 border border-gray-200 rounded-lg px-1.5
-                    focus:outline-none focus:border-blue-400 focus:bg-white transition-colors
-                    appearance-none cursor-pointer text-center"
-								>
-									{opts.map((o) => (
-										<option key={o.value} value={o.value}>
-											{o.label}
-										</option>
-									))}
-								</select>
-							</div>
-						))}
-					</div>
+					<SelectField
+						label="Align"
+						value={strokeAlign}
+						options={STROKE_ALIGN_OPTIONS}
+						onChange={(v) => applyStrokeAlign(v as typeof strokeAlign)}
+					/>
+					<SelectField
+						label="Cap"
+						value={strokeCap}
+						options={STROKE_CAP_OPTIONS}
+						onChange={(v) => applyStrokeCap(v as typeof strokeCap)}
+					/>
+					<SelectField
+						label="Join"
+						value={strokeJoin}
+						options={STROKE_JOIN_OPTIONS}
+						onChange={(v) => applyStrokeJoin(v as typeof strokeJoin)}
+					/>
 				</Section>
 			)}
 

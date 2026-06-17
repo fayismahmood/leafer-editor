@@ -10,14 +10,16 @@ export function RectProperties() {
   return (
     <BaseShapeProperties>
       <Section title="Shape">
-        <NumberField
-          label="Radius"
-          value={cornerRadius}
-          onChange={applyCornerRadius}
-          min={0}
-          max={500}
-          unit="px"
-        />
+        <div className="col-span-full">
+          <NumberField
+            label="Radius"
+            value={cornerRadius}
+            onChange={applyCornerRadius}
+            min={0}
+            max={500}
+            unit="px"
+          />
+        </div>
       </Section>
     </BaseShapeProperties>
   )

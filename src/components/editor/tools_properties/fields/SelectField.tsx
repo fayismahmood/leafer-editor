@@ -1,3 +1,11 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 interface SelectOption {
   value: string
   label: string
@@ -16,19 +24,18 @@ export function SelectField({ label, value, options, onChange }: SelectFieldProp
       <label className="text-xs text-gray-500 font-medium leading-none">
         {label}
       </label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full h-7 text-xs bg-gray-50 border border-gray-200 rounded-lg px-2
-          focus:outline-none focus:border-blue-400 focus:bg-white transition-colors
-          appearance-none cursor-pointer"
-      >
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger className="w-full text-xs rounded-lg border-gray-200 bg-gray-50 px-2 py-0 data-[size=default]:h-7 [&_svg]:size-3">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   )
 }

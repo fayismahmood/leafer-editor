@@ -158,7 +158,7 @@ export function ShadowSection() {
 
   return (
     <Section title="Shadow">
-      <div className="flex flex-col gap-2">
+      <div className="col-span-full flex flex-col gap-2">
         {shadows.map((shadow, i) => (
           <ShadowItem
             key={i}

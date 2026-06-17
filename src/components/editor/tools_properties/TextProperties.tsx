@@ -100,7 +100,7 @@ export function TextProperties() {
 					max={999}
 					unit="px"
 				/>
-				<div className="flex flex-col gap-1">
+				<div className="col-span-full flex flex-col gap-1">
 					<label className="text-xs text-gray-500 font-medium leading-none">
 						Family
 					</label>
@@ -176,15 +176,17 @@ export function TextProperties() {
 						applyToSelection({ textDecoration: v });
 					}}
 				/>
-				<SelectField
-					label="Wrap"
-					value={textWrap}
-					options={TEXT_WRAP_OPTIONS}
-					onChange={(v) => {
-						setTextWrap(v);
-						applyToSelection({ textWrap: v });
-					}}
-				/>
+				<div className="col-span-full">
+					<SelectField
+						label="Wrap"
+						value={textWrap}
+						options={TEXT_WRAP_OPTIONS}
+						onChange={(v) => {
+							setTextWrap(v);
+							applyToSelection({ textWrap: v });
+						}}
+					/>
+				</div>
 			</Section>
 		</BaseShapeProperties>
 	);

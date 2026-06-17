@@ -22,7 +22,7 @@ export function NumberField({
       <label className="text-xs text-gray-500 font-medium leading-none">
         {label}
       </label>
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center h-7 bg-gray-50 border border-gray-200 rounded-lg px-2 focus-within:border-blue-400 focus-within:bg-white transition-colors">
         <input
           type="number"
           value={value}
@@ -30,11 +30,10 @@ export function NumberField({
           max={max}
           step={step}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="flex-1 h-7 text-xs bg-gray-50 border border-gray-200 rounded-lg px-2 min-w-0
-            focus:outline-none focus:border-blue-400 focus:bg-white transition-colors"
+          className="flex-1 h-full text-xs bg-transparent border-none outline-none min-w-0 p-0"
         />
         {unit && (
-          <span className="text-xs text-gray-400 shrink-0 font-medium">{unit}</span>
+          <span className="text-xs text-gray-400 shrink-0 font-medium leading-none ml-0.5">{unit}</span>
         )}
       </div>
     </div>
