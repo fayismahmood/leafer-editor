@@ -45,10 +45,7 @@ export function ColorField({ label, value, onChange }: ColorFieldProps) {
           {/* Checkerboard base + color/gradient overlay */}
           <div
             className="w-4 h-4 rounded-sm flex-shrink-0 border border-gray-200"
-            style={{
-              background: `${swatchBg},
-                repeating-conic-gradient(#d0d0d0 0% 25%, #ffffff 0% 50%) 0 0 / 6px 6px`,
-            }}
+            style={{ background: swatchBg }}
           />
           <span className="text-xs text-gray-600 truncate leading-none">{displayText}</span>
         </div>

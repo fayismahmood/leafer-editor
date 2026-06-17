@@ -1,5 +1,24 @@
 import { useSelector } from "@tanstack/react-store";
 import { useEffect, useState } from "react";
+import {
+	AlignCenter,
+	AlignCenterVertical,
+	AlignEndVertical,
+	AlignJustify,
+	AlignLeft,
+	AlignRight,
+	AlignStartVertical,
+	ArrowDownFromLine,
+	ArrowUpFromLine,
+	Ban,
+	CaseSensitive,
+	Strikethrough,
+	Text,
+	TextQuote,
+	Underline,
+	WrapText,
+	X,
+} from "lucide-react";
 import { editorStore } from "#/store/editor";
 import { BaseShapeProperties } from "./BaseShapeProperties";
 import { NumberField, Section, SelectField, ToggleField } from "./fields";
@@ -26,35 +45,35 @@ const FONT_WEIGHT_OPTIONS = [
 ];
 
 const TEXT_ALIGN_OPTIONS = [
-	{ value: "left", label: "Left" },
-	{ value: "center", label: "Center" },
-	{ value: "right", label: "Right" },
-	{ value: "justify", label: "Justify" },
+	{ value: "left", label: "Left", icon: AlignLeft },
+	{ value: "center", label: "Center", icon: AlignCenter },
+	{ value: "right", label: "Right", icon: AlignRight },
+	{ value: "justify", label: "Justify", icon: AlignJustify },
 ];
 
 const VERTICAL_ALIGN_OPTIONS = [
-	{ value: "top", label: "Top" },
-	{ value: "middle", label: "Middle" },
-	{ value: "bottom", label: "Bottom" },
+	{ value: "top", label: "Top", icon: AlignStartVertical },
+	{ value: "middle", label: "Middle", icon: AlignCenterVertical },
+	{ value: "bottom", label: "Bottom", icon: AlignEndVertical },
 ];
 
 const TEXT_CASE_OPTIONS = [
-	{ value: "none", label: "None" },
-	{ value: "upper", label: "Uppercase" },
-	{ value: "lower", label: "Lowercase" },
-	{ value: "title", label: "Title Case" },
+	{ value: "none", label: "None", icon: CaseSensitive },
+	{ value: "upper", label: "Uppercase", icon: ArrowUpFromLine },
+	{ value: "lower", label: "Lowercase", icon: ArrowDownFromLine },
+	{ value: "title", label: "Title Case", icon: TextQuote },
 ];
 
 const TEXT_DECORATION_OPTIONS = [
-	{ value: "none", label: "None" },
-	{ value: "under", label: "Underline" },
-	{ value: "delete", label: "Strikethrough" },
+	{ value: "none", label: "None", icon: X },
+	{ value: "under", label: "Underline", icon: Underline },
+	{ value: "delete", label: "Strikethrough", icon: Strikethrough },
 ];
 
 const TEXT_WRAP_OPTIONS = [
-	{ value: "normal", label: "Normal" },
-	{ value: "none", label: "No Wrap" },
-	{ value: "break", label: "Break" },
+	{ value: "normal", label: "Normal", icon: WrapText },
+	{ value: "none", label: "No Wrap", icon: Ban },
+	{ value: "break", label: "Break", icon: Text },
 ];
 
 export function TextProperties() {

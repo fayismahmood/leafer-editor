@@ -65,13 +65,14 @@ export function GradientBar({
       {/* Gradient preview bar — always left→right (90°) for clarity */}
       <div
         ref={barRef}
-        className="relative h-5 rounded cursor-crosshair border border-gray-200"
+        className="relative h-5 rounded cursor-crosshair border border-gray-200 overflow-hidden"
         style={{
-          background: `linear-gradient(90deg, ${barCss}),
-            repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0 0 / 8px 8px`,
+          background: `repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0 0 / 8px 8px`,
         }}
         onClick={handleBarClick}
-      />
+      >
+        <div className="absolute inset-0" style={{ background: `linear-gradient(90deg, ${barCss})` }} />
+      </div>
 
       {/* Stop handles row */}
       <div className="relative h-4 mx-1">
@@ -83,9 +84,13 @@ export function GradientBar({
             className={`absolute top-0 -translate-x-1/2 w-3.5 h-3.5 rounded-full cursor-pointer border-2 shadow ${
               selectedId === stop.id
                 ? 'border-blue-500 ring-1 ring-blue-300'
-                : 'border-white'
+                : 'border-gray-400'
             }`}
-            style={{ left: `${stop.offset * 100}%`, background: stop.color }}
+            style={{
+              left: `${stop.offset * 100}%`,
+              background: `${stop.color},
+                repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0 0 / 6px 6px`,
+            }}
             onMouseDown={(e) => handleStopMouseDown(e, stop.id)}
           />
         ))}

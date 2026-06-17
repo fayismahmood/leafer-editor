@@ -3,6 +3,29 @@ import type { ReactNode } from "react";
 import type { BlendMode } from "#/store/editor";
 import { editorStore } from "#/store/editor";
 import {
+	AlignCenter,
+	AlignEndVertical,
+	AlignStartVertical,
+	ArrowLeftRight,
+	Circle,
+	CircleDot,
+	Contrast,
+	CornerDownRight,
+	Droplets,
+	Eclipse,
+	Eye,
+	Layers,
+	Lightbulb,
+	Minus,
+	Monitor,
+	Moon,
+	Palette,
+	Square,
+	Sun,
+	X,
+	Zap,
+} from "lucide-react";
+import {
 	ColorField,
 	NumberField,
 	Section,
@@ -29,40 +52,40 @@ export interface BaseShapePropertiesProps {
 }
 
 const STROKE_ALIGN_OPTIONS = [
-	{ value: "center", label: "Center" },
-	{ value: "inside", label: "Inside" },
-	{ value: "outside", label: "Outside" },
+	{ value: "center", label: "Center", icon: AlignCenter },
+	{ value: "inside", label: "Inside", icon: AlignStartVertical },
+	{ value: "outside", label: "Outside", icon: AlignEndVertical },
 ];
 
 const STROKE_CAP_OPTIONS = [
-	{ value: "none", label: "None" },
-	{ value: "round", label: "Round" },
-	{ value: "square", label: "Square" },
+	{ value: "none", label: "None", icon: X },
+	{ value: "round", label: "Round", icon: Circle },
+	{ value: "square", label: "Square", icon: Square },
 ];
 
 const STROKE_JOIN_OPTIONS = [
-	{ value: "miter", label: "Miter" },
-	{ value: "round", label: "Round" },
-	{ value: "bevel", label: "Bevel" },
+	{ value: "miter", label: "Miter", icon: CornerDownRight },
+	{ value: "round", label: "Round", icon: Circle },
+	{ value: "bevel", label: "Bevel", icon: Minus },
 ];
 
-const BLEND_MODE_OPTIONS: { value: BlendMode; label: string }[] = [
-	{ value: "normal", label: "Normal" },
-	{ value: "multiply", label: "Multiply" },
-	{ value: "screen", label: "Screen" },
-	{ value: "overlay", label: "Overlay" },
-	{ value: "darken", label: "Darken" },
-	{ value: "lighten", label: "Lighten" },
-	{ value: "color-dodge", label: "Color Dodge" },
-	{ value: "color-burn", label: "Color Burn" },
-	{ value: "hard-light", label: "Hard Light" },
-	{ value: "soft-light", label: "Soft Light" },
-	{ value: "difference", label: "Difference" },
-	{ value: "exclusion", label: "Exclusion" },
-	{ value: "hue", label: "Hue" },
-	{ value: "saturation", label: "Saturation" },
-	{ value: "color", label: "Color" },
-	{ value: "luminosity", label: "Luminosity" },
+const BLEND_MODE_OPTIONS: { value: BlendMode; label: string; icon?: typeof Eye }[] = [
+	{ value: "normal", label: "Normal", icon: Eye },
+	{ value: "multiply", label: "Multiply", icon: CircleDot },
+	{ value: "screen", label: "Screen", icon: Monitor },
+	{ value: "overlay", label: "Overlay", icon: Layers },
+	{ value: "darken", label: "Darken", icon: Moon },
+	{ value: "lighten", label: "Lighten", icon: Sun },
+	{ value: "color-dodge", label: "Color Dodge", icon: Contrast },
+	{ value: "color-burn", label: "Color Burn", icon: Sun },
+	{ value: "hard-light", label: "Hard Light", icon: Zap },
+	{ value: "soft-light", label: "Soft Light", icon: Sun },
+	{ value: "difference", label: "Difference", icon: ArrowLeftRight },
+	{ value: "exclusion", label: "Exclusion", icon: Eclipse },
+	{ value: "hue", label: "Hue", icon: Palette },
+	{ value: "saturation", label: "Saturation", icon: Droplets },
+	{ value: "color", label: "Color", icon: Palette },
+	{ value: "luminosity", label: "Luminosity", icon: Lightbulb },
 ];
 
 export function BaseShapeProperties({

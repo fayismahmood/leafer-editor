@@ -1,6 +1,6 @@
 import "@leafer-in/export";
 import { useSelector } from "@tanstack/react-store";
-import { Download } from "lucide-react";
+import { Download, FileImage, FileJson, Globe, Image, ImageDown, LayoutPanelTop } from "lucide-react";
 import { useState } from "react";
 import { editorStore } from "#/store/editor";
 import { getCanvasApp } from "#/utils/appInstance";
@@ -15,12 +15,12 @@ import {
 type ExportFormat = "png" | "jpg" | "webp" | "bmp" | "json" | "canvas";
 
 const FORMAT_OPTIONS = [
-	{ value: "png", label: "PNG" },
-	{ value: "jpg", label: "JPG" },
-	{ value: "webp", label: "WebP" },
-	{ value: "bmp", label: "BMP" },
-	{ value: "json", label: "JSON" },
-	{ value: "canvas", label: "Canvas" },
+	{ value: "png", label: "PNG", icon: Image },
+	{ value: "jpg", label: "JPG", icon: FileImage },
+	{ value: "webp", label: "WebP", icon: Globe },
+	{ value: "bmp", label: "BMP", icon: ImageDown },
+	{ value: "json", label: "JSON", icon: FileJson },
+	{ value: "canvas", label: "Canvas", icon: LayoutPanelTop },
 ];
 
 function dataURLtoBlob(dataURL: string): Blob {

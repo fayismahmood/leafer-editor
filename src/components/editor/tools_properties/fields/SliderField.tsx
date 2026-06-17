@@ -1,3 +1,5 @@
+import { Slider } from '@/components/ui/slider'
+
 interface SliderFieldProps {
   label: string
   value: number
@@ -25,14 +27,15 @@ export function SliderField({
           {displayValue ?? value}
         </span>
       </div>
-      <input
-        type="range"
-        value={value}
+      <Slider
+        value={[value]}
         min={min}
         max={max}
         step={step}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 accent-blue-500 cursor-pointer rounded-full"
+        onValueChange={(v) => {
+          const val = Array.isArray(v) ? v[0] : v
+          if (!Number.isNaN(val)) onChange(val)
+        }}
       />
     </div>
   )

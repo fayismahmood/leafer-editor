@@ -55,7 +55,7 @@ function ShadowItem({ shadow, index, onChange, onDelete }: ShadowItemProps) {
   return (
     <div className="flex flex-col gap-2 p-2.5 bg-gray-50 rounded-lg border border-gray-200">
       {/* Top row: visible, color, type, delete */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-stretch gap-2">
         <button
           onClick={() => update({ visible: !shadow.visible })}
           className={`flex-shrink-0 transition-colors ${shadow.visible ? 'text-gray-600 hover:text-gray-900' : 'text-gray-300 hover:text-gray-500'}`}
@@ -131,7 +131,7 @@ function ShadowItem({ shadow, index, onChange, onDelete }: ShadowItemProps) {
               value={shadow[key]}
               step={1}
               onChange={(e) => update({ [key]: Number(e.target.value) })}
-              className="w-full h-6 text-[11px] bg-white border border-gray-200 rounded px-1 text-center
+              className="w-full h-6 text-[11px] bg-white border border-gray-200 rounded px-1 text-left
                 focus:outline-none focus:border-blue-400 transition-colors"
             />
           </div>
