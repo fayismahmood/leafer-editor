@@ -13,7 +13,8 @@ import { TextTool } from "./TextTool";
 import { StarTool } from "./StarTool";
 import { PenTool } from "./PenTool";
 import { ImageTool } from "./ImageTool";
-import { Circle, Frame, ImageIcon, Minus, MousePointer2, PenLine, Square, Star, Type } from "lucide-react";
+import { RichTextTool } from "./RichTextTool";
+import { Circle, FileText, Frame, ImageIcon, Minus, MousePointer2, PenLine, Square, Star, Type } from "lucide-react";
 
 // Re-export types and classes
 export type { ITool, ToolCreateOptions, ToolDefaultValues };
@@ -26,6 +27,7 @@ export { LineTool } from "./LineTool";
 export { TextTool } from "./TextTool";
 export { StarTool } from "./StarTool";
 export { PenTool } from "./PenTool";
+export { RichTextTool } from "./RichTextTool";
 
 const toolRegistry: Partial<Record<ToolType, ITool>> = {
   rect:    new RectTool(),
@@ -35,6 +37,7 @@ const toolRegistry: Partial<Record<ToolType, ITool>> = {
   text:    new TextTool(),
   star:    new StarTool(),
   image:   new ImageTool(),
+  richtext: new RichTextTool(),
 };
 
 /**
@@ -114,6 +117,7 @@ export const toolGroups: ToolGroup[] = [
     label: 'Content',
     tools: [
       { tool: 'text', label: 'Text', icon: <Type size={20} />, shortcut: 'T' },
+      { tool: 'richtext', label: 'Rich Text', icon: <FileText size={20} />, shortcut: 'H' },
       { tool: 'image', label: 'Image', icon: <ImageIcon size={20} />, shortcut: 'I' },
     ],
   },

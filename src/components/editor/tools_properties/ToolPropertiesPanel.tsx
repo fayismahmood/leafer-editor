@@ -15,6 +15,7 @@ import { RectProperties } from "./RectProperties";
 import { SelectProperties } from "./SelectProperties";
 import { StarProperties } from "./StarProperties";
 import { TextProperties } from "./TextProperties";
+import { RichTextProperties } from "./RichTextProperties";
 
 // ── Maps ──────────────────────────────────────────────────────────────────────
 
@@ -28,6 +29,7 @@ const toolPropertiesMap: Record<ToolType, ComponentType> = {
 	frame: FrameProperties,
 	star: StarProperties,
 	image: BaseShapeProperties,
+	richtext: RichTextProperties,
 };
 
 const elementPropertiesMap: Record<string, ComponentType> = {
@@ -38,6 +40,7 @@ const elementPropertiesMap: Record<string, ComponentType> = {
 	Text: TextProperties,
 	Path: PenProperties,
 	Frame: FrameProperties,
+	HTMLText: RichTextProperties,
 };
 
 const TOOL_LABELS: Record<ToolType, string> = {
@@ -50,6 +53,7 @@ const TOOL_LABELS: Record<ToolType, string> = {
 	frame: "Frame",
 	star: "Star",
 	image: "Image",
+	richtext: "Rich Text",
 };
 
 const ELEMENT_LABELS: Record<string, string> = {
@@ -60,6 +64,7 @@ const ELEMENT_LABELS: Record<string, string> = {
 	Text: "Text",
 	Path: "Path",
 	Frame: "Frame",
+	HTMLText: "Rich Text",
 };
 
 // ── Constants ─────────────────────────────────────────────────────────────────

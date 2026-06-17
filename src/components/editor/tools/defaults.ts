@@ -71,4 +71,10 @@ export const defaultToolValues: Record<ToolType, ToolDefaultValues> = {
     stroke: "transparent",
     strokeWidth: 0,
   },
+  richtext: {
+    ...baseDefaults,
+    fill: "#333333",
+    stroke: "transparent",
+    strokeWidth: 0,
+  },
 };

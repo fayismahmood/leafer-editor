@@ -4,6 +4,7 @@
  */
 
 import { App, DragEvent, Rect } from "leafer-ui";
+import "@leafer-in/html";
 import "@leafer-in/state";
 import "@leafer-in/animate";
 import "@leafer-in/text-editor";
@@ -15,6 +16,7 @@ import { Snap } from "leafer-x-easy-snap";
 
 import { editorStore } from "#/store/editor";
 import { createFrame } from "./frame";
+import { applyRichTextPlugin } from "#/components/editor/richtext-plugin";
 import {
   forceSelectModeInSelectTool,
   trackEditorSelection,
@@ -29,6 +31,8 @@ import { setCanvasApp } from "#/utils/appInstance";
  * @param elm - The container HTMLDivElement to mount the canvas into
  */
 export function initCanvasApp(elm: HTMLDivElement): void {
+  applyRichTextPlugin();
+
   const canvasWrapper = document.createElement("div");
   const app = new App({
     view: canvasWrapper,

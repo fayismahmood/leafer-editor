@@ -14,6 +14,7 @@ export type ToolType =
   | 'frame'
   | 'star'
   | 'image'
+  | 'richtext'
 
 export type StrokeAlign = 'inside' | 'center' | 'outside'
 export type StrokeCap = 'none' | 'square' | 'round'
