@@ -22,19 +22,19 @@ export function applyRichTextPlugin() {
         document.body.appendChild(div);
 
         const { height } = div.getBoundingClientRect();
-        const svgWidth = Math.ceil(explicitWidth * pr);
-        const svgHeight = Math.ceil(height * pr);
+        const svgW = Math.ceil(explicitWidth * pr);
+        const svgH = Math.ceil(height * pr);
 
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}">
-<foreignObject width="${svgWidth}" height="${svgHeight}">
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg">
+<foreignObject width="100%" height="100%">
 <style>*{margin:0;padding:0;box-sizing:border-box}</style>
-<body xmlns="http://www.w3.org/1999/xhtml">${this.decodeText(this.text)}</body>
+<body xmlns="http://www.w3.org/1999/xhtml" style="width:${explicitWidth}px">${this.decodeText(this.text)}</body>
 </foreignObject>
 </svg>`;
 
         data.__setImageFill("data:image/svg+xml," + encodeURIComponent(svg));
-        data.__naturalWidth = svgWidth / pr;
-        data.__naturalHeight = svgHeight / pr;
+        data.__naturalWidth = svgW / pr;
+        data.__naturalHeight = svgH / pr;
         data.__htmlChanged = false;
         div.remove();
 
